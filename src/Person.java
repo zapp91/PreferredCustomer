@@ -26,7 +26,7 @@ public class Person {
 	}
 	
 	public String getLName() {
-		return fName;
+		return lName;
 	}
 
 	public String getAddress() {
