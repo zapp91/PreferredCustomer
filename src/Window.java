@@ -5,8 +5,11 @@ import java.awt.*;		//needed for FlowLayout class
 
 public class Window extends JFrame {
 	
-	private final int WINDOW_WIDTH = 270;
-	private final int WINDOW_HEIGHT = 350;
+	private JPanel topPanel = new JPanel();
+	private JPanel mainPanel = new JPanel();
+	
+	private final int WINDOW_WIDTH = 300;
+	private final int WINDOW_HEIGHT = 370;
 	
 	private String[] names = {"Royce", "Steve", "John"};
 
@@ -24,7 +27,7 @@ public class Window extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//add a BorderLayout manager to the content pane
-		setLayout(new FlowLayout(FlowLayout.RIGHT));
+		setLayout(new FlowLayout(FlowLayout.CENTER));
 		
 		System.out.println(getContentPane().getSize());
 		
@@ -37,11 +40,6 @@ public class Window extends JFrame {
 		JPanel panel6 = new JPanel();
 		JPanel panel7 = new JPanel();
 		JPanel panel8 = new JPanel();
-		
-		panel1.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		
-		panel1.setPreferredSize(new Dimension(WINDOW_WIDTH-40, 30));
-		//mainPanel.setPreferredSize(new Dimension(200, 300));
 		
 		//create three buttons
 		JButton addNewCustomerButton = new JButton("Add New Customer");
@@ -97,13 +95,19 @@ public class Window extends JFrame {
 
 		panel8.add(payButton);
 		
-		add(panel1);
-		add(panel2);
-		add(panel3);
-		add(panel4);
-		add(panel5);
-		add(panel6);
-		add(panel7);
+		mainPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		mainPanel.setPreferredSize( new Dimension(250, 220) );
+		
+		topPanel.add(panel1);
+		mainPanel.add(panel2);
+		mainPanel.add(panel3);
+		mainPanel.add(panel4);
+		mainPanel.add(panel5);
+		mainPanel.add(panel6);
+		mainPanel.add(panel7);
+		
+		add(topPanel);
+		add(mainPanel);
 		add(panel8);
 		
 		//pack and display the window
