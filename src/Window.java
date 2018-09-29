@@ -5,10 +5,8 @@ import java.awt.*;		//needed for FlowLayout class
 
 public class Window extends JFrame {
 	
-	//create regional panels
-	private JPanel northPanel;
-	private JPanel eastPanel;
-	private JPanel westPanel;
+	private final int WINDOW_WIDTH = 270;
+	private final int WINDOW_HEIGHT = 350;
 	
 	private String[] names = {"Royce", "Steve", "John"};
 
@@ -17,40 +15,36 @@ public class Window extends JFrame {
 		//set the title bar text
 		setTitle("Check Out");
 		
+		//set the size of the window
+		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		
+		setResizable(false);
+		
 		//specify an action for the close button
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//add a BorderLayout manager to the content pane
-		setLayout(new BorderLayout());
+		setLayout(new FlowLayout(FlowLayout.RIGHT));
 		
-		//build check out panel
-		buildCheckOut();
+		System.out.println(getContentPane().getSize());
 		
-		//add the three buttons to the content pane
-		add(westPanel, BorderLayout.WEST);
-		add(eastPanel, BorderLayout.EAST);
+		//create panels
+		JPanel panel1 = new JPanel();
+		JPanel panel2 = new JPanel();
+		JPanel panel3 = new JPanel();
+		JPanel panel4 = new JPanel();
+		JPanel panel5 = new JPanel();
+		JPanel panel6 = new JPanel();
+		JPanel panel7 = new JPanel();
+		JPanel panel8 = new JPanel();
 		
-		//pack and display the window
-		pack();
-		setVisible(true);
+		panel1.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		
-	}
-	
-	private void buildCheckOut() {
-		
-		//create regional panels
-		northPanel = new JPanel();
-		eastPanel = new JPanel();
-		westPanel = new JPanel();
-		
-		eastPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		westPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
-		
-		eastPanel.setPreferredSize(new Dimension(150, 300));
-		westPanel.setPreferredSize(new Dimension(150, 300));
+		panel1.setPreferredSize(new Dimension(WINDOW_WIDTH-40, 30));
+		//mainPanel.setPreferredSize(new Dimension(200, 300));
 		
 		//create three buttons
-		//JButton addNewCustomerButton = new JButton("Add New Customer");
+		JButton addNewCustomerButton = new JButton("Add New Customer");
 		JButton payButton = new JButton("Pay");
 		
 		//create combo box
@@ -71,30 +65,50 @@ public class Window extends JFrame {
 		JTextField amountDiscountedField =	new JTextField(10);
 		JTextField pendingPaymentField = 	new JTextField(10);
 		
+		//change component sizes
+		nameBox.setPreferredSize(new Dimension(115, 25));
+		
 		//change some text fields to uneditable
 		currentSpentField.setEditable(false);
 		currentDiscountField.setEditable(false);
 		amountDiscountedField.setEditable(false);
 		pendingPaymentField.setEditable(false);
 		
-		//add west panel features
-		//centerPanel.add(addNewCustomerButton);
-		westPanel.add(customerLabel);
-		westPanel.add(currentSpentLabel);
-		westPanel.add(currentDiscountLabel);
-		westPanel.add(transactionAmountLabel);
-		westPanel.add(amountDiscountedLabel);
-		westPanel.add(pendingPaymentLabel);
+		//add main panel features
+		panel1.add(addNewCustomerButton);
 		
-		//add east panel features
-		eastPanel.add(nameBox);
-		eastPanel.add(currentSpentField);
-		eastPanel.add(currentDiscountField);
-		eastPanel.add(transactionAmountField);
-		eastPanel.add(amountDiscountedField);
-		eastPanel.add(pendingPaymentField);
-		//eastPanel.add(payButton);
+		panel2.add(customerLabel);
+		panel2.add(nameBox);
 		
+		panel3.add(currentSpentLabel);
+		panel3.add(currentSpentField);
+		
+		panel4.add(currentDiscountLabel);
+		panel4.add(currentDiscountField);
+		
+		panel5.add(transactionAmountLabel);
+		panel5.add(transactionAmountField);
+		
+		panel6.add(amountDiscountedLabel);
+		panel6.add(amountDiscountedField);
+		
+		panel7.add(pendingPaymentLabel);
+		panel7.add(pendingPaymentField);
+
+		panel8.add(payButton);
+		
+		add(panel1);
+		add(panel2);
+		add(panel3);
+		add(panel4);
+		add(panel5);
+		add(panel6);
+		add(panel7);
+		add(panel8);
+		
+		//pack and display the window
+		//pack();
+		setVisible(true);
 	}
 	
 	public static void main(String[] args) {
