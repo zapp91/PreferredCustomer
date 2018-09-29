@@ -5,8 +5,10 @@ import java.awt.*;		//needed for FlowLayout class
 
 public class Window extends JFrame {
 	
-	private final int WINDOW_WIDTH = 300;
-	private final int WINDOW_HEIGHT = 500;
+	//create regional panels
+	private JPanel northPanel;
+	private JPanel eastPanel;
+	private JPanel westPanel;
 	
 	private String[] names = {"Royce", "Steve", "John"};
 
@@ -15,22 +17,37 @@ public class Window extends JFrame {
 		//set the title bar text
 		setTitle("Check Out");
 		
-		//set the size of the window
-		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-		
 		//specify an action for the close button
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//add a BorderLayout manager to the content pane
 		setLayout(new BorderLayout());
 		
-		//create regional panels
-		JPanel northPanel = new JPanel();
-		JPanel eastPanel = new JPanel();
-		JPanel westPanel = new JPanel();
+		//build check out panel
+		buildCheckOut();
 		
-		eastPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
-		westPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		//add the three buttons to the content pane
+		add(westPanel, BorderLayout.WEST);
+		add(eastPanel, BorderLayout.EAST);
+		
+		//pack and display the window
+		pack();
+		setVisible(true);
+		
+	}
+	
+	private void buildCheckOut() {
+		
+		//create regional panels
+		northPanel = new JPanel();
+		eastPanel = new JPanel();
+		westPanel = new JPanel();
+		
+		eastPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		westPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+		
+		eastPanel.setPreferredSize(new Dimension(150, 300));
+		westPanel.setPreferredSize(new Dimension(150, 300));
 		
 		//create three buttons
 		//JButton addNewCustomerButton = new JButton("Add New Customer");
@@ -77,14 +94,6 @@ public class Window extends JFrame {
 		eastPanel.add(amountDiscountedField);
 		eastPanel.add(pendingPaymentField);
 		//eastPanel.add(payButton);
-		
-		//add the three buttons to the content pane
-		add(westPanel, BorderLayout.WEST);
-		add(eastPanel, BorderLayout.EAST);
-		
-		//pack and display the window
-		//pack();
-		setVisible(true);
 		
 	}
 	
