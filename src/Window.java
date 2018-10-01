@@ -9,6 +9,8 @@ public class Window extends JFrame {
 	private final int WINDOW_WIDTH = 300;
 	private final int WINDOW_HEIGHT = 370;
 	
+	private PreferredCustomer[] PCarray = {};
+	
 	private String[] names = {"Royce", "Steve", "John"};
 
 	public Window() {
