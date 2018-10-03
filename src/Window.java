@@ -1,6 +1,9 @@
 //Written By: Royce Duncan, 9/27/2018
 
 import javax.swing.*; 	//needed for Swing classes
+
+import org.w3c.dom.events.EventException;
+
 import java.awt.*;		//needed for FlowLayout class
 import java.awt.event.*;//needed for action listeners
 
@@ -93,15 +96,13 @@ public class Window extends JFrame {
 		panel7 = new JPanel();
 		panel8 = new JPanel();
 		
-		//create three buttons
+		//buttons
 		addNewCustomerButton = new JButton("Add New Customer");
-		addNewCustomerButton.addActionListener(new addCusButtonListener());
 		payButton = new JButton("Pay");
 		
 		//create combo box
 		nameBox = new JComboBox(names);
 		nameBox.setSelectedIndex(-1);
-		nameBox.addActionListener(new nameComboBoxListener());
 		
 		//create labels
 		customerLabel = 			new JLabel("Customer ");
@@ -126,6 +127,12 @@ public class Window extends JFrame {
 		currentDiscountField.setEditable(false);
 		amountDiscountedField.setEditable(false);
 		pendingPaymentField.setEditable(false);
+		
+		//listeners
+		addNewCustomerButton.addActionListener(new addCusButtonListener());
+		nameBox.addActionListener(new nameComboBoxListener());
+		transactionAmountField.addActionListener(new transactionAmountFieldListener());
+		
 		
 		//add main panel features
 		panel2.add(customerLabel);
@@ -189,7 +196,13 @@ public class Window extends JFrame {
 		
 		public void actionPerformed(ActionEvent e) {
 			
-			
+			try {
+				amountDiscountedField.setText("" + (Float.parseFloat(transactionAmountField.getText()) * Float.parseFloat(currentDiscountField.getText())));
+			}
+			catch (EventException ex) {
+				amountDiscountedField.setText("Inproper Input");
+				pendingPaymentField.setText("Inproper Input");
+			}
 		}
 	}
 	

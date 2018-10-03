@@ -26,21 +26,21 @@ public class PreferredCustomer extends Customer {
 		this.amountSpent = amountSpent;
 	}
 	
-	public int getDiscountRate() {
+	public float getDiscountRate() {
 		if (amountSpent < 500) {
-			return 0;
+			return 0.0f;
 		}
 		else if (amountSpent < 1000) {
-			return 5;
+			return 0.05f;
 		}
 		else if (amountSpent < 1500) {
-			return 6;
+			return 0.06f;
 		}
 		else if (amountSpent < 2000) {
-			return 7;
+			return 0.07f;
 		}
 		else {
-			return 10;
+			return 0.10f;
 		}
 	}
 }
