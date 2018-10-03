@@ -100,6 +100,7 @@ public class Window extends JFrame {
 		
 		//create combo box
 		nameBox = new JComboBox(names);
+		nameBox.setSelectedIndex(-1);
 		nameBox.addActionListener(new nameComboBoxListener());
 		
 		//create labels
@@ -181,6 +182,14 @@ public class Window extends JFrame {
 					currentDiscountField.setText(PCarray[i].getDiscountRate() + "%"); 
 				}
 			}
+		}
+	}
+	
+	private class transactionAmountFieldListener implements ActionListener {
+		
+		public void actionPerformed(ActionEvent e) {
+			
+			
 		}
 	}
 	
