@@ -43,4 +43,8 @@ public class PreferredCustomer extends Customer {
 			return 0.10f;
 		}
 	}
+	
+	public void addMoneySpent (float moneyPayed) {
+		amountSpent += moneyPayed;
+	}
 }

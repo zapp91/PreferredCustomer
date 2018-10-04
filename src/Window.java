@@ -59,6 +59,11 @@ public class Window extends JFrame {
 	JRadioButton radio1;
 	JRadioButton radio2;
 
+	int tempInt;
+	
+	float calculatedAmountDiscounted;
+	float calculatedPendingPayment;
+	
 	private final int WINDOW_WIDTH = 300;
 	private final int WINDOW_HEIGHT = 370;
 	
@@ -67,7 +72,7 @@ public class Window extends JFrame {
 		new PreferredCustomer("Stevie","Nicks","456 Streety st","8507654321",2,false,1200.00f),
 		new PreferredCustomer("Eric","Clapton","789 Circly cir","8509632587",3,false,2075.00f),
 		new PreferredCustomer("Lindsey","Stirling","741 Highway hwy","8508521478",4,true,200.00f),
-		new PreferredCustomer("Stevie","Nicks","456 Streety st","8507654321",5,false,1600.00f)
+		new PreferredCustomer("John","Ray","456 Streety st","8507654321",5,false,1600.00f)
 	};
 	
 	private String[] names = {
@@ -103,6 +108,7 @@ public class Window extends JFrame {
 	}
 	
 	private void buildCheckout() {
+		getContentPane().removeAll();
 		
 		//create main panel
 		mainPanel = new JPanel();
@@ -150,9 +156,10 @@ public class Window extends JFrame {
 		pendingPaymentField.setEditable(false);
 		
 		//listeners
-		addNewCustomerButton.addActionListener(new addCusButtonListener());
+		addNewCustomerButton.addActionListener(new addNewCusButtonListener());
 		nameBox.addActionListener(new nameComboBoxListener());
 		transactionAmountField.addActionListener(new transactionAmountFieldListener());
+		payButton.addActionListener(new payButtonListener());
 		
 		
 		//add main panel features
@@ -192,11 +199,12 @@ public class Window extends JFrame {
 		
 		add(mainPanel);
 		add(panel8);
-
+		
+		revalidate();
 	}
 	
 	private void buildAddCus() {
-		getContentPane().removeAll();//or remove(JComponent)
+		getContentPane().removeAll();
 		
 		//create main panel
 		mainPanel = new JPanel();
@@ -249,9 +257,9 @@ public class Window extends JFrame {
 		pendingPaymentField.setEditable(false);
 		
 		//listeners
-		addNewCustomerButton.addActionListener(new addCusButtonListener());
-		nameBox.addActionListener(new nameComboBoxListener());
-		transactionAmountField.addActionListener(new transactionAmountFieldListener());
+		clearButton.addActionListener(new clearButtonListern());
+		addCusButton.addActionListener(new addCusButtonListener());
+		returnButton.addActionListener(new returnButtonListener());
 		
 		
 		//add main panel features
@@ -296,46 +304,63 @@ public class Window extends JFrame {
 		revalidate();
 	}
 	
-	private class addCusButtonListener implements ActionListener {
-		
+	private class addNewCusButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			
-			System.out.println("running buildAddCus()");
 			buildAddCus();
 		}
 	}
 	
 	private class nameComboBoxListener implements ActionListener {
-		
 		public void actionPerformed(ActionEvent e) {
-			
-			int tempInt = getSelectedCustomerIndex();
-			
-			currentSpentField.setText("$" + PCarray[tempInt].getAmountSpent());
+			tempInt = getSelectedCustomerIndex();
+			currentSpentField.setText("$" + String.format("%.2f", PCarray[tempInt].getAmountSpent()));
 			currentDiscountField.setText( ((int)(100 * PCarray[tempInt].getDiscountRate())) + "%");
 		}
 	}
 	
 	private class transactionAmountFieldListener implements ActionListener {
-		
 		public void actionPerformed(ActionEvent e) {
-			
 			try {
-				int tempInt = getSelectedCustomerIndex();
-				
-				float calculatedAmountDiscounted = Float.parseFloat(transactionAmountField.getText()) * PCarray[tempInt].getDiscountRate();
-				float calculatedPendingPayment = Float.parseFloat(transactionAmountField.getText()) - calculatedAmountDiscounted;
-				
+				tempInt = getSelectedCustomerIndex();
+				calculatedAmountDiscounted = Float.parseFloat(transactionAmountField.getText()) * PCarray[tempInt].getDiscountRate();
+				calculatedPendingPayment = Float.parseFloat(transactionAmountField.getText()) - calculatedAmountDiscounted;
 				amountDiscountedField.setText("$" + String.format("%.2f", calculatedAmountDiscounted));
 				pendingPaymentField.setText("$" + String.format("%.2f", calculatedPendingPayment));
-				
-				//amountDiscountedField.setText("$" + calculatedAmountDiscounted);
-				//pendingPaymentField.setText("$" + calculatedPendingPayment);
 			}
 			catch (Exception ex) {
 				amountDiscountedField.setText("Improper Input");
 				pendingPaymentField.setText("Improper Input");
 			}
+		}
+	}
+	
+	private class payButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			int tempInt = getSelectedCustomerIndex();
+			System.out.println(String.format("%.2f", calculatedPendingPayment));
+			PCarray[tempInt].addMoneySpent(Float.parseFloat(String.format("%.2f", calculatedPendingPayment)));
+		}
+	}
+	
+	private class clearButtonListern implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			
+		}
+	}
+	
+	private class addCusButtonListener implements ActionListener {
+		
+		public void actionPerformed(ActionEvent e) {
+			
+		}
+	}
+	
+	private class returnButtonListener implements ActionListener {
+		
+		public void actionPerformed(ActionEvent e) {
+			
+			System.out.println("running buildCheckout()");
+			buildCheckout();
 		}
 	}
 	
