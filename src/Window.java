@@ -105,17 +105,17 @@ public class Window extends JFrame {
 		nameBox.setSelectedIndex(-1);
 		
 		//create labels
-		customerLabel = 			new JLabel("Customer ");
-		currentSpentLabel = 		new JLabel("Current Spent ");
+		customerLabel = 		new JLabel("Customer ");
+		currentSpentLabel = 	new JLabel("Current Spent ");
 		currentDiscountLabel = 	new JLabel("Current Discount ");
-		transactionAmountLabel = new JLabel("Transaction Amount ");
+		transactionAmountLabel =new JLabel("Transaction Amount ");
 		amountDiscountedLabel =	new JLabel("Discounted ");
 		pendingPaymentLabel = 	new JLabel("Pending Payment ");
 		
 		//create text fields
-		currentSpentField = 		new JTextField(10);
+		currentSpentField = 	new JTextField(10);
 		currentDiscountField = 	new JTextField(10);
-		transactionAmountField = new JTextField(10);
+		transactionAmountField =new JTextField(10);
 		amountDiscountedField =	new JTextField(10);
 		pendingPaymentField = 	new JTextField(10);
 		
@@ -135,6 +135,8 @@ public class Window extends JFrame {
 		
 		
 		//add main panel features
+		panel1.add(addNewCustomerButton);
+		
 		panel2.add(customerLabel);
 		panel2.add(nameBox);
 		
@@ -157,6 +159,8 @@ public class Window extends JFrame {
 		
 		mainPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		mainPanel.setPreferredSize(new Dimension(260, 220));
+		
+		//add(panel1);
 		
 		mainPanel.add(panel2);
 		mainPanel.add(panel3);
@@ -184,8 +188,8 @@ public class Window extends JFrame {
 			
 			int tempInt = getSelectedCustomerIndex();
 			
-			currentSpentField.setText("$" + PCarray[tempInt].getAmountSpent());    
-			currentDiscountField.setText(PCarray[tempInt].getDiscountRate() + "%"); 
+			currentSpentField.setText("$" + PCarray[tempInt].getAmountSpent());
+			currentDiscountField.setText( ((int)(100 * PCarray[tempInt].getDiscountRate())) + "%");
 		}
 	}
 	
@@ -199,12 +203,12 @@ public class Window extends JFrame {
 				float calculatedAmountDiscounted = Float.parseFloat(transactionAmountField.getText()) * PCarray[tempInt].getDiscountRate();
 				float calculatedPendingPayment = Float.parseFloat(transactionAmountField.getText()) - calculatedAmountDiscounted;
 				
-				amountDiscountedField.setText("$" + calculatedAmountDiscounted);
-				pendingPaymentField.setText("$" + calculatedPendingPayment);
+				amountDiscountedField.setText("$" + String.format("%.2f", calculatedAmountDiscounted));
+				pendingPaymentField.setText("$" + String.format("%.2f", calculatedPendingPayment));
 			}
 			catch (Exception ex) {
-				amountDiscountedField.setText("Inproper Input");
-				pendingPaymentField.setText("Inproper Input");
+				amountDiscountedField.setText("Improper Input");
+				pendingPaymentField.setText("Improper Input");
 			}
 		}
 	}
