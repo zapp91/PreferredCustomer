@@ -182,13 +182,10 @@ public class Window extends JFrame {
 		
 		public void actionPerformed(ActionEvent e) {
 			
-			String selection = (String) nameBox.getSelectedItem();
-			for (int i = 0; i < PCarray.length; i++) {
-				if (selection.equals(PCarray[i].getFName())) {
-					currentSpentField.setText("$" + PCarray[i].getAmountSpent());    
-					currentDiscountField.setText(PCarray[i].getDiscountRate() + "%"); 
-				}
-			}
+			int tempInt = getSelectedCustomerIndex();
+			
+			currentSpentField.setText("$" + PCarray[tempInt].getAmountSpent());    
+			currentDiscountField.setText(PCarray[tempInt].getDiscountRate() + "%"); 
 		}
 	}
 	
@@ -197,13 +194,31 @@ public class Window extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			
 			try {
-				amountDiscountedField.setText("" + (Float.parseFloat(transactionAmountField.getText()) * Float.parseFloat(currentDiscountField.getText())));
+				int tempInt = getSelectedCustomerIndex();
+				
+				float calculatedAmountDiscounted = Float.parseFloat(transactionAmountField.getText()) * PCarray[tempInt].getDiscountRate();
+				float calculatedPendingPayment = Float.parseFloat(transactionAmountField.getText()) - calculatedAmountDiscounted;
+				
+				amountDiscountedField.setText("$" + calculatedAmountDiscounted);
+				pendingPaymentField.setText("$" + calculatedPendingPayment);
 			}
-			catch (EventException ex) {
+			catch (Exception ex) {
 				amountDiscountedField.setText("Inproper Input");
 				pendingPaymentField.setText("Inproper Input");
 			}
 		}
+	}
+	
+	private int getSelectedCustomerIndex() {
+		String selection = (String) nameBox.getSelectedItem();
+		int tempInt = 0;
+		for (int i = 0; i < PCarray.length; i++) {
+			if (selection.equals(PCarray[i].getFName())) {
+				tempInt = i;
+				i = PCarray.length;
+			}
+		}
+		return tempInt;
 	}
 	
 	public static void main(String[] args) {
