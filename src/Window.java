@@ -160,7 +160,7 @@ public class Window extends JFrame {
 		mainPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		mainPanel.setPreferredSize(new Dimension(260, 220));
 		
-		//add(panel1);
+		add(panel1);
 		
 		mainPanel.add(panel2);
 		mainPanel.add(panel3);
