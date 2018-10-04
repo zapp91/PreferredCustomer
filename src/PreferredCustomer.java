@@ -3,7 +3,6 @@
 public class PreferredCustomer extends Customer {
 
 	private float amountSpent;
-	private int discountLevel;
 	
 	/**
 	 * @param fName
@@ -13,28 +12,35 @@ public class PreferredCustomer extends Customer {
 	 * @param cusNum
 	 * @param mailList
 	 * @param amountSpent
-	 * @param discountLevel
 	 */
-	public PreferredCustomer(String fName, String lName, String address, String phone, int cusNum, boolean mailList, float amountSpent, int discountLevel) {
+	public PreferredCustomer(String fName, String lName, String address, String phone, int cusNum, boolean mailList, float amountSpent) {
 		super(fName, lName, address, phone, cusNum, mailList);
 		this.amountSpent = amountSpent;
-		this.discountLevel = discountLevel;
 	}
 
 	public float getAmountSpent() {
 		return amountSpent;
-	}
-
-	public int getDiscountLevel() {
-		return discountLevel;
 	}
 	
 	public void setAmountSpent(int amountSpent) {
 		this.amountSpent = amountSpent;
 	}
 	
-	public void setDiscountLevel(int discountLevel) {
-		this.discountLevel = discountLevel;
+	public float getDiscountRate() {
+		if (amountSpent < 500) {
+			return 0.0f;
+		}
+		else if (amountSpent < 1000) {
+			return 0.05f;
+		}
+		else if (amountSpent < 1500) {
+			return 0.06f;
+		}
+		else if (amountSpent < 2000) {
+			return 0.07f;
+		}
+		else {
+			return 0.10f;
+		}
 	}
-	
 }

@@ -1,15 +1,61 @@
 //Written By: Royce Duncan, 9/27/2018
 
 import javax.swing.*; 	//needed for Swing classes
+
+import org.w3c.dom.events.EventException;
+
 import java.awt.*;		//needed for FlowLayout class
 import java.awt.event.*;//needed for action listeners
 
 public class Window extends JFrame {
 	
+	JPanel mainPanel;
+	
+	JPanel panel1;
+	JPanel panel2;
+	JPanel panel3;
+	JPanel panel4;
+	JPanel panel5;
+	JPanel panel6;
+	JPanel panel7;
+	JPanel panel8;
+	
+	JButton addNewCustomerButton;
+	JButton payButton;
+	
+	JComboBox nameBox;
+	
+	JLabel customerLabel;		
+	JLabel currentSpentLabel;
+	JLabel currentDiscountLabel;
+	JLabel transactionAmountLabel;
+	JLabel amountDiscountedLabel;
+	JLabel pendingPaymentLabel;
+	
+	JTextField currentSpentField;
+	JTextField currentDiscountField;
+	JTextField transactionAmountField;
+	JTextField amountDiscountedField;
+	JTextField pendingPaymentField;
+	
 	private final int WINDOW_WIDTH = 300;
 	private final int WINDOW_HEIGHT = 370;
 	
-	private String[] names = {"Royce", "Steve", "John"};
+	private PreferredCustomer[] PCarray = {
+		new PreferredCustomer("Royce","Duncan","123 Roady rd","8501234567",1,true,750.00f),
+		new PreferredCustomer("Stevie","Nicks","456 Streety st","8507654321",2,false,1200.00f),
+		new PreferredCustomer("Eric","Clapton","789 Circly cir","8509632587",3,false,2075.00f),
+		new PreferredCustomer("Lindsey","Stirling","741 Highway hwy","8508521478",4,true,200.00f),
+		new PreferredCustomer("Stevie","Nicks","456 Streety st","8507654321",5,false,1600.00f)
+	};
+	
+	private String[] names = {
+		PCarray[0].getFName(),
+		PCarray[1].getFName(),
+		PCarray[2].getFName(),
+		PCarray[3].getFName(),
+		PCarray[4].getFName()
+	};
 
 	public Window() {
 		
@@ -37,42 +83,41 @@ public class Window extends JFrame {
 	
 	private void buildCheckout() {
 		
-		//create main panels
-		JPanel topPanel = new JPanel();
-		JPanel mainPanel = new JPanel();
+		//create main panel
+		mainPanel = new JPanel();
 		
 		//create sub panels
-		JPanel panel1 = new JPanel();
-		JPanel panel2 = new JPanel();
-		JPanel panel3 = new JPanel();
-		JPanel panel4 = new JPanel();
-		JPanel panel5 = new JPanel();
-		JPanel panel6 = new JPanel();
-		JPanel panel7 = new JPanel();
-		JPanel panel8 = new JPanel();
+		panel1 = new JPanel();
+		panel2 = new JPanel();
+		panel3 = new JPanel();
+		panel4 = new JPanel();
+		panel5 = new JPanel();
+		panel6 = new JPanel();
+		panel7 = new JPanel();
+		panel8 = new JPanel();
 		
-		//create three buttons
-		JButton addNewCustomerButton = new JButton("Add New Customer");
-		addNewCustomerButton.addActionListener(new addCusButtonListener());
-		JButton payButton = new JButton("Pay");
+		//buttons
+		addNewCustomerButton = new JButton("Add New Customer");
+		payButton = new JButton("Pay");
 		
 		//create combo box
-		JComboBox nameBox = new JComboBox(names);
+		nameBox = new JComboBox(names);
+		nameBox.setSelectedIndex(-1);
 		
 		//create labels
-		JLabel customerLabel = 			new JLabel("Customer ");
-		JLabel currentSpentLabel = 		new JLabel("Current Spent $");
-		JLabel currentDiscountLabel = 	new JLabel("Current Discount ");
-		JLabel transactionAmountLabel = new JLabel("Transaction Amount $");
-		JLabel amountDiscountedLabel =	new JLabel("Discounted $");
-		JLabel pendingPaymentLabel = 	new JLabel("Pending Payment $");
+		customerLabel = 		new JLabel("Customer ");
+		currentSpentLabel = 	new JLabel("Current Spent ");
+		currentDiscountLabel = 	new JLabel("Current Discount ");
+		transactionAmountLabel =new JLabel("Transaction Amount ");
+		amountDiscountedLabel =	new JLabel("Discounted ");
+		pendingPaymentLabel = 	new JLabel("Pending Payment ");
 		
 		//create text fields
-		JTextField currentSpentField = 		new JTextField(10);
-		JTextField currentDiscountField = 	new JTextField(10);
-		JTextField transactionAmountField = new JTextField(10);
-		JTextField amountDiscountedField =	new JTextField(10);
-		JTextField pendingPaymentField = 	new JTextField(10);
+		currentSpentField = 	new JTextField(10);
+		currentDiscountField = 	new JTextField(10);
+		transactionAmountField =new JTextField(10);
+		amountDiscountedField =	new JTextField(10);
+		pendingPaymentField = 	new JTextField(10);
 		
 		//change component sizes
 		nameBox.setPreferredSize(new Dimension(115, 25));
@@ -82,6 +127,12 @@ public class Window extends JFrame {
 		currentDiscountField.setEditable(false);
 		amountDiscountedField.setEditable(false);
 		pendingPaymentField.setEditable(false);
+		
+		//listeners
+		addNewCustomerButton.addActionListener(new addCusButtonListener());
+		nameBox.addActionListener(new nameComboBoxListener());
+		transactionAmountField.addActionListener(new transactionAmountFieldListener());
+		
 		
 		//add main panel features
 		panel1.add(addNewCustomerButton);
@@ -109,7 +160,8 @@ public class Window extends JFrame {
 		mainPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		mainPanel.setPreferredSize(new Dimension(260, 220));
 		
-		topPanel.add(panel1);
+		//add(panel1);
+		
 		mainPanel.add(panel2);
 		mainPanel.add(panel3);
 		mainPanel.add(panel4);
@@ -117,88 +169,9 @@ public class Window extends JFrame {
 		mainPanel.add(panel6);
 		mainPanel.add(panel7);
 		
-		add(topPanel);
 		add(mainPanel);
 		add(panel8);
 
-	}
-	
-	private void buildAddCus() {
-		
-		//removeAll(); //or remove(JComponent)
-		//revalidate();
-		//repaint();
-		
-		//create main panel
-		JPanel mainPanel = new JPanel();
-		
-		//create sub panels
-		JPanel panel1 = new JPanel();
-		JPanel panel2 = new JPanel();
-		JPanel panel3 = new JPanel();
-		JPanel panel4 = new JPanel();
-		JPanel panel5 = new JPanel();
-		JPanel panel6 = new JPanel();
-		JPanel panel7 = new JPanel();
-		JPanel panel8 = new JPanel();
-		
-		//create labels
-		JLabel firstNameLabel = new JLabel("First Name ");
-		JLabel lastNameLabel = 	new JLabel("Last Name ");
-		JLabel addressLabel = 	new JLabel("Address ");
-		JLabel phoneLabel = 	new JLabel("Phone ");
-		JLabel spentLabel =		new JLabel("Money Spent ");
-		JLabel mailListLabel = 	new JLabel("Mail List ");
-		
-		//create text fields
-		JTextField firstNameField = new JTextField(10);
-		JTextField lastNameField = 	new JTextField(10);
-		JTextField addressField = 	new JTextField(10);
-		JTextField phoneField =		new JTextField(10);
-		JTextField spentField = 	new JTextField(10);
-		
-		//create three buttons
-		JButton clearButton = new JButton("Clear");
-		JButton addCusButton = new JButton("Add Customer");
-		JButton returnButton = new JButton("Return to Checkout");
-		//addNewCustomerButton.addActionListener(new addCusButtonListener());
-		
-		//add main panel features
-		panel1.add(firstNameLabel);
-		panel1.add(firstNameField);
-		
-		panel2.add(lastNameLabel);
-		panel2.add(lastNameField);
-		
-		panel3.add(addressLabel);
-		panel3.add(addressField);
-		
-		panel4.add(phoneLabel);
-		panel4.add(phoneField);
-		
-		panel5.add(spentLabel);
-		panel5.add(spentField);
-		
-		//panel6.add();
-		//panel6.add();
-		
-		panel7.add(clearButton);
-		panel7.add(addCusButton);
-		
-		panel8.add(returnButton);
-		
-		mainPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		mainPanel.setPreferredSize(new Dimension(260, 220));
-		
-		mainPanel.add(panel1);
-		mainPanel.add(panel2);
-		mainPanel.add(panel3);
-		mainPanel.add(panel4);
-		mainPanel.add(panel5);
-		mainPanel.add(panel6);
-		mainPanel.add(panel7);
-		
-		add(mainPanel);
 	}
 	
 	private class addCusButtonListener implements ActionListener {
@@ -206,11 +179,50 @@ public class Window extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			
 			System.out.println("running buildAddCus()");
-			
-			buildAddCus();
-			
 		}
+	}
+	
+	private class nameComboBoxListener implements ActionListener {
 		
+		public void actionPerformed(ActionEvent e) {
+			
+			int tempInt = getSelectedCustomerIndex();
+			
+			currentSpentField.setText("$" + PCarray[tempInt].getAmountSpent());
+			currentDiscountField.setText( ((int)(100 * PCarray[tempInt].getDiscountRate())) + "%");
+		}
+	}
+	
+	private class transactionAmountFieldListener implements ActionListener {
+		
+		public void actionPerformed(ActionEvent e) {
+			
+			try {
+				int tempInt = getSelectedCustomerIndex();
+				
+				float calculatedAmountDiscounted = Float.parseFloat(transactionAmountField.getText()) * PCarray[tempInt].getDiscountRate();
+				float calculatedPendingPayment = Float.parseFloat(transactionAmountField.getText()) - calculatedAmountDiscounted;
+				
+				amountDiscountedField.setText("$" + String.format("%.2f", calculatedAmountDiscounted));
+				pendingPaymentField.setText("$" + String.format("%.2f", calculatedPendingPayment));
+			}
+			catch (Exception ex) {
+				amountDiscountedField.setText("Improper Input");
+				pendingPaymentField.setText("Improper Input");
+			}
+		}
+	}
+	
+	private int getSelectedCustomerIndex() {
+		String selection = (String) nameBox.getSelectedItem();
+		int tempInt = 0;
+		for (int i = 0; i < PCarray.length; i++) {
+			if (selection.equals(PCarray[i].getFName())) {
+				tempInt = i;
+				i = PCarray.length;
+			}
+		}
+		return tempInt;
 	}
 	
 	public static void main(String[] args) {
