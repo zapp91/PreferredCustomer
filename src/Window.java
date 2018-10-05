@@ -250,17 +250,10 @@ public class Window extends JFrame {
 		//change component sizes
 		nameBox.setPreferredSize(new Dimension(115, 25));
 		
-		//change some text fields to uneditable
-		currentSpentField.setEditable(false);
-		currentDiscountField.setEditable(false);
-		amountDiscountedField.setEditable(false);
-		pendingPaymentField.setEditable(false);
-		
 		//listeners
 		clearButton.addActionListener(new clearButtonListern());
 		addCusButton.addActionListener(new addCusButtonListener());
 		returnButton.addActionListener(new returnButtonListener());
-		
 		
 		//add main panel features
 		panel1.add(firstNameLabel);
@@ -314,7 +307,10 @@ public class Window extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			tempInt = getSelectedCustomerIndex();
 			currentSpentField.setText("$" + String.format("%.2f", PCarray[tempInt].getAmountSpent()));
-			currentDiscountField.setText( ((int)(100 * PCarray[tempInt].getDiscountRate())) + "%");
+			currentDiscountField.setText(((int)(100 * PCarray[tempInt].getDiscountRate())) + "%");
+			transactionAmountField.setText("");
+			amountDiscountedField.setText("");
+			pendingPaymentField.setText("");
 		}
 	}
 	
@@ -322,8 +318,10 @@ public class Window extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				tempInt = getSelectedCustomerIndex();
+				
 				calculatedAmountDiscounted = Float.parseFloat(transactionAmountField.getText()) * PCarray[tempInt].getDiscountRate();
 				calculatedPendingPayment = Float.parseFloat(transactionAmountField.getText()) - calculatedAmountDiscounted;
+				
 				amountDiscountedField.setText("$" + String.format("%.2f", calculatedAmountDiscounted));
 				pendingPaymentField.setText("$" + String.format("%.2f", calculatedPendingPayment));
 			}
@@ -336,15 +334,26 @@ public class Window extends JFrame {
 	
 	private class payButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			int tempInt = getSelectedCustomerIndex();
-			System.out.println(String.format("%.2f", calculatedPendingPayment));
-			PCarray[tempInt].addMoneySpent(Float.parseFloat(String.format("%.2f", calculatedPendingPayment)));
+			try {
+				tempInt = getSelectedCustomerIndex();
+				if (tempInt != -1) {
+					PCarray[tempInt].addMoneySpent(Float.parseFloat(pendingPaymentField.getText().substring(1)));
+					nameBox.setSelectedIndex(tempInt);
+				}
+			}
+			catch (Exception ex) {
+				//do nothing
+			}
 		}
 	}
 	
 	private class clearButtonListern implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			
+			firstNameField.setText("");
+			lastNameField.setText("");
+			addressField.setText("");
+			phoneField.setText("");
+			moneySpentField.setText("");
 		}
 	}
 	
