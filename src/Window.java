@@ -384,6 +384,13 @@ public class Window extends JFrame {
 		return tempInt;
 	}
 	
+	private String properCase(String name) {
+		StringBuilder strBuild = new StringBuilder(name.toLowerCase().trim());
+		strBuild.setCharAt(0,Character.toUpperCase(strBuild.charAt(0)));
+		strBuild.
+		return strBuild.toString();
+	}
+	
 	public static void main(String[] args) {
 		new Window();
 	}
