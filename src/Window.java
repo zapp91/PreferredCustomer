@@ -1,9 +1,6 @@
 //Written By: Royce Duncan, 9/27/2018
 
 import javax.swing.*; 	//needed for Swing classes
-
-import org.w3c.dom.events.EventException;
-
 import java.awt.*;		//needed for FlowLayout class
 import java.awt.event.*;//needed for action listeners
 
@@ -358,17 +355,19 @@ public class Window extends JFrame {
 	}
 	
 	private class addCusButtonListener implements ActionListener {
-		
 		public void actionPerformed(ActionEvent e) {
+			String PCfName = 		firstNameField.getText();
+			String PClName = 		lastNameField.getText();
+			String PCaddress = 		addressField.getText();
+			String PCphone = 		phoneField.getText();
+			String PCmoneySpent = 	moneySpentField.getText();
+			
 			
 		}
 	}
 	
 	private class returnButtonListener implements ActionListener {
-		
 		public void actionPerformed(ActionEvent e) {
-			
-			System.out.println("running buildCheckout()");
 			buildCheckout();
 		}
 	}
@@ -386,9 +385,6 @@ public class Window extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		
 		new Window();
-		
 	}
-
 }
