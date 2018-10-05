@@ -362,6 +362,13 @@ public class Window extends JFrame {
 			String PCphone = 		phoneField.getText();
 			String PCmoneySpent = 	moneySpentField.getText();
 			
+			try {
+				PCfName = properCase(PCfName);
+				PClName = properCase(PClName);
+				
+			} catch (Exception e1) {
+				System.out.println(e1);
+			}
 			
 		}
 	}
@@ -384,10 +391,14 @@ public class Window extends JFrame {
 		return tempInt;
 	}
 	
-	private String properCase(String name) {
+	private String properCase(String name) throws Exception{
 		StringBuilder strBuild = new StringBuilder(name.toLowerCase().trim());
-		strBuild.setCharAt(0,Character.toUpperCase(strBuild.charAt(0)));
-		strBuild.
+		if (name.matches("[a-z]+")) {
+			strBuild.setCharAt(0,Character.toUpperCase(strBuild.charAt(0)));
+		}
+		else {
+			throw new Exception("Inproper Name Format");
+		}
 		return strBuild.toString();
 	}
 	
