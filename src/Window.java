@@ -428,12 +428,16 @@ public class Window extends JFrame {
 				transactionAmountLabelError.setText("");
 				transactionWindowError.setText("");
 				
-				tempInt = getSelectedCustomerIndex();
-				calculatedAmountDiscounted = Float.parseFloat(transactionAmountField.getText()) * pcArray.get(tempInt).getDiscountRate();
-				calculatedPendingPayment = Float.parseFloat(transactionAmountField.getText()) - calculatedAmountDiscounted;
-				
-				amountDiscountedField.setText("$" + String.format("%.2f", calculatedAmountDiscounted));
-				pendingPaymentField.setText("$" + String.format("%.2f", calculatedPendingPayment));
+				if (nameBox.getSelectedIndex() != -1) {
+					tempInt = getSelectedCustomerIndex();
+					calculatedAmountDiscounted = Float.parseFloat(transactionAmountField.getText()) * pcArray.get(tempInt).getDiscountRate();
+					calculatedPendingPayment = Float.parseFloat(transactionAmountField.getText()) - calculatedAmountDiscounted;
+					amountDiscountedField.setText("$" + String.format("%.2f", calculatedAmountDiscounted));
+					pendingPaymentField.setText("$" + String.format("%.2f", calculatedPendingPayment));
+				}
+				else {
+					transactionWindowError.setText("No Customer Selected");
+				}
 			}
 			catch (Exception ex) {
 				transactionAmountLabelError.setText("*");
@@ -502,7 +506,8 @@ public class Window extends JFrame {
 			error = false;
 			
 			try {
-				strBuild = new StringBuilder(PCfName.toLowerCase().trim());
+				PCfName = PCfName.toLowerCase().trim();
+				strBuild = new StringBuilder(PCfName);
 				if (PCfName.matches("^[a-z]+$")) {
 					strBuild.setCharAt(0,Character.toUpperCase(strBuild.charAt(0)));
 					PCfName = strBuild.toString();
@@ -512,61 +517,74 @@ public class Window extends JFrame {
 					firstNameLabelError.setText("*");
 				}
 				
-				strBuild = new StringBuilder(PClName.toLowerCase().trim());
+				PClName = PClName.toLowerCase().trim();
+				strBuild = new StringBuilder(PClName);
 				if (PClName.matches("^[a-z]+$")) {
 					strBuild.setCharAt(0,Character.toUpperCase(strBuild.charAt(0)));
 					PClName = strBuild.toString();
 				}
 				else {
 					error = true;
+					lastNameLabelError.setText("*");
 				}
 				
-				strBuild = new StringBuilder(PCaddress.toLowerCase().trim());
+				PCaddress = PCaddress.toLowerCase().trim();
+				strBuild = new StringBuilder(PCaddress);
 				if (PCaddress.matches("^[0-9]+[\\s][a-z]+$")) {
-				
+					PCaddress = strBuild.toString();
 				}
 				else {
 					error = true;
+					addressLabelError.setText("*");
 				}
-
-				strBuild = new StringBuilder(PCcity.toLowerCase().trim());
+				
+				PCcity = PCcity.toLowerCase().trim();
+				strBuild = new StringBuilder(PCcity);
 				if (PCcity.matches("^[a-z]+$")) {
-					
+					strBuild.setCharAt(0,Character.toUpperCase(strBuild.charAt(0)));
+					PCcity = strBuild.toString();
 				}
 				else {
 					error = true;
+					cityLabelError.setText("*");
 				}
 				
-				strBuild = new StringBuilder(PCstate.toUpperCase().trim());
-				if (PCstate.matches("^[a-z]{2}$")) {
-					
+				PCstate = PCstate.toUpperCase().trim();
+				strBuild = new StringBuilder(PCstate);
+				if (PCstate.matches("^[A-Z]{2}$")) {
+					PCstate = strBuild.toString();
 				}
 				else {
 					error = true;
+					stateLabelError.setText("*");
 				}
 				
-				strBuild = new StringBuilder(PCzip.trim());
+				PCzip = PCzip.trim();
+				strBuild = new StringBuilder(PCzip);
 				if (PCzip.matches("^[0-9]{5}$")) {
-					
+					PCzip = strBuild.toString();
 				}
 				else {
 					error = true;
+					zipLabelError.setText("*");
 				}
 				
 				strBuild = new StringBuilder(PCphone.trim());
 				if (PCphone.matches("^[0-9]{10}$")) {
-					
+					PCphone = strBuild.toString();
 				}
 				else {
 					error = true;
+					phoneLabelError.setText("*");
 				}
 				
 				strBuild = new StringBuilder(PCmoneySpent.trim());
 				if (PCmoneySpent.matches("^([0-9]*\\.[0-9]+|[0-9]+|[0-9]+\\.)$")) {
-					
+					PCmoneySpent = strBuild.toString();
 				}
 				else {
 					error = true;
+					moneySpentLabelError.setText("*");
 				}
 				
 				if (error) {
@@ -585,9 +603,9 @@ public class Window extends JFrame {
 							radio1.isSelected(),
 							Float.parseFloat(PCmoneySpent));
 					
-					//pcArray
+					pcArray.add(newPC);
+					//namesArray.add()
 				}
-
 			}
 			catch (Exception ex) {
 				System.out.println(ex);
