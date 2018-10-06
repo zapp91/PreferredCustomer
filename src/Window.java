@@ -3,6 +3,7 @@
 import javax.swing.*; 	//needed for Swing classes
 import java.awt.*;		//needed for FlowLayout class
 import java.awt.event.*;//needed for action listeners
+import java.util.ArrayList;
 
 public class Window extends JFrame {
 	
@@ -98,7 +99,17 @@ public class Window extends JFrame {
 	private final int WINDOW_WIDTH = 300;
 	private final int WINDOW_HEIGHT = 460;
 	
+	/*
 	private PreferredCustomer[] PCarray = {
+		new PreferredCustomer("Royce","Duncan","123 Roady rd","Panama City","FL",32405,8501234567L,1, true, 750.00f),
+		new PreferredCustomer("Stevie","Nicks","456 Streety st","Panama City","FL",32405,8501234567L,2,false,1200.00f),
+		new PreferredCustomer("Eric","Clapton","789 Circly cir","Panama City","FL",32405,8501234567L,3,false,2075.00f),
+		new PreferredCustomer("Lindsey","Stirling","741 Highway hwy","Panama City","FL",32405,8501234567L,4,true,200.00f),
+		new PreferredCustomer("John","Ray","456 Streety st","Panama City","FL",32405,8501234567L,5,false,1600.00f)
+	};
+	*/
+	
+	private ArrayList<PreferredCustomer> PCarray = new ArrayList<>{
 		new PreferredCustomer("Royce","Duncan","123 Roady rd","Panama City","FL",32405,8501234567L,1, true, 750.00f),
 		new PreferredCustomer("Stevie","Nicks","456 Streety st","Panama City","FL",32405,8501234567L,2,false,1200.00f),
 		new PreferredCustomer("Eric","Clapton","789 Circly cir","Panama City","FL",32405,8501234567L,3,false,2075.00f),
@@ -440,6 +451,17 @@ public class Window extends JFrame {
 	
 	private class addCusButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			
+			firstNameLabelError.setText("");
+			lastNameLabelError.setText("");
+			addressLabelError.setText("");
+			cityLabelError.setText("");
+			stateLabelError.setText("");
+			zipLabelError.setText("");
+			phoneLabelError.setText("");
+			moneySpentLabelError.setText("");
+			addCustomerLabelError.setText("");
+			
 			PCfName = 		firstNameField.getText();
 			PClName = 		lastNameField.getText();
 			PCaddress = 	addressField.getText();
@@ -519,11 +541,24 @@ public class Window extends JFrame {
 				}
 				
 				if (error) {
-					throw new Exception("Customer input error.");
+					addCustomerLabelError.setText("Input Error");
 				}
 				else {
+					PreferredCustomer newPC = new PreferredCustomer(
+							PCfName,
+							PClName,
+							PCaddress,
+							PCcity,
+							PCstate,
+							Integer.parseInt(PCzip),
+							Long.parseLong(PCphone),
+							PCarray.length,
+							radio1.isSelected(),
+							Float.parseFloat(PCmoneySpent));
 					
+					//PCarray
 				}
+
 			}
 			catch (Exception ex) {
 				System.out.println(ex);
