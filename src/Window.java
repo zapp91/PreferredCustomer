@@ -97,36 +97,25 @@ public class Window extends JFrame {
 	StringBuilder strBuild;
 	
 	private final int WINDOW_WIDTH = 300;
-	private final int WINDOW_HEIGHT = 460;
-	
-	/*
-	private PreferredCustomer[] PCarray = {
-		new PreferredCustomer("Royce","Duncan","123 Roady rd","Panama City","FL",32405,8501234567L,1, true, 750.00f),
-		new PreferredCustomer("Stevie","Nicks","456 Streety st","Panama City","FL",32405,8501234567L,2,false,1200.00f),
-		new PreferredCustomer("Eric","Clapton","789 Circly cir","Panama City","FL",32405,8501234567L,3,false,2075.00f),
-		new PreferredCustomer("Lindsey","Stirling","741 Highway hwy","Panama City","FL",32405,8501234567L,4,true,200.00f),
-		new PreferredCustomer("John","Ray","456 Streety st","Panama City","FL",32405,8501234567L,5,false,1600.00f)
-	};
-	*/
-	
-	private ArrayList<PreferredCustomer> PCarray = new ArrayList<>{
-		new PreferredCustomer("Royce","Duncan","123 Roady rd","Panama City","FL",32405,8501234567L,1, true, 750.00f),
-		new PreferredCustomer("Stevie","Nicks","456 Streety st","Panama City","FL",32405,8501234567L,2,false,1200.00f),
-		new PreferredCustomer("Eric","Clapton","789 Circly cir","Panama City","FL",32405,8501234567L,3,false,2075.00f),
-		new PreferredCustomer("Lindsey","Stirling","741 Highway hwy","Panama City","FL",32405,8501234567L,4,true,200.00f),
-		new PreferredCustomer("John","Ray","456 Streety st","Panama City","FL",32405,8501234567L,5,false,1600.00f)
-	};
-	
-	private String[] names = {
-		PCarray[0].getFName(),
-		PCarray[1].getFName(),
-		PCarray[2].getFName(),
-		PCarray[3].getFName(),
-		PCarray[4].getFName()
-	};
+	private final int WINDOW_HEIGHT = 490;
 
+	private ArrayList<PreferredCustomer> pcArray = new ArrayList<PreferredCustomer>();
+	private ArrayList<String> namesArray = new ArrayList<String>();
+	
 	public Window() {
 		
+		pcArray.add(new PreferredCustomer("Royce","Duncan","123 Roady rd","Panama City","FL",32405,8501234567L,1, true, 750.00f));
+		pcArray.add(new PreferredCustomer("Stevie","Nicks","456 Streety st","Panama City","FL",32405,8501234567L,2,false,1200.00f));
+		pcArray.add(new PreferredCustomer("Eric","Clapton","789 Circly cir","Panama City","FL",32405,8501234567L,3,false,2075.00f));
+		pcArray.add(new PreferredCustomer("Lindsey","Stirling","741 Highway hwy","Panama City","FL",32405,8501234567L,4,true,200.00f));
+		pcArray.add(new PreferredCustomer("John","Ray","456 Streety st","Panama City","FL",32405,8501234567L,5,false,1600.00f));
+		
+		namesArray.add(pcArray.get(0).getFName());
+		namesArray.add(pcArray.get(1).getFName());
+		namesArray.add(pcArray.get(2).getFName());
+		namesArray.add(pcArray.get(3).getFName());
+		namesArray.add(pcArray.get(4).getFName());
+				
 		//set the title bar text
 		setTitle("Check Out");
 		
@@ -174,7 +163,7 @@ public class Window extends JFrame {
 		payButton = new JButton("Pay");
 		
 		//create combo box
-		nameBox = new JComboBox(names);
+		nameBox = new JComboBox(namesArray.toArray());
 		nameBox.setSelectedIndex(-1);
 		
 		//create labels
@@ -364,6 +353,7 @@ public class Window extends JFrame {
 		panel10.add(addCusButton);
 
 		panel11.add(returnButton);
+		panel11.setPreferredSize(new Dimension(280,40));
 		
 		panel12.add(addCustomerLabelError);
 		
@@ -398,8 +388,8 @@ public class Window extends JFrame {
 	private class nameComboBoxListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			tempInt = getSelectedCustomerIndex();
-			currentSpentField.setText("$" + String.format("%.2f", PCarray[tempInt].getAmountSpent()));
-			currentDiscountField.setText(((int)(100 * PCarray[tempInt].getDiscountRate())) + "%");
+			currentSpentField.setText("$" + String.format("%.2f", pcArray.get(tempInt).getAmountSpent()));
+			currentDiscountField.setText(((int)(100 * pcArray.get(tempInt).getDiscountRate())) + "%");
 			transactionAmountField.setText("");
 			amountDiscountedField.setText("");
 			pendingPaymentField.setText("");
@@ -411,7 +401,7 @@ public class Window extends JFrame {
 			try {
 				tempInt = getSelectedCustomerIndex();
 				
-				calculatedAmountDiscounted = Float.parseFloat(transactionAmountField.getText()) * PCarray[tempInt].getDiscountRate();
+				calculatedAmountDiscounted = Float.parseFloat(transactionAmountField.getText()) * pcArray.get(tempInt).getDiscountRate();
 				calculatedPendingPayment = Float.parseFloat(transactionAmountField.getText()) - calculatedAmountDiscounted;
 				
 				amountDiscountedField.setText("$" + String.format("%.2f", calculatedAmountDiscounted));
@@ -429,7 +419,7 @@ public class Window extends JFrame {
 			try {
 				tempInt = getSelectedCustomerIndex();
 				if (tempInt != -1) {
-					PCarray[tempInt].addMoneySpent(Float.parseFloat(pendingPaymentField.getText().substring(1)));
+					pcArray.get(tempInt).addMoneySpent(Float.parseFloat(pendingPaymentField.getText().substring(1)));
 					nameBox.setSelectedIndex(tempInt);
 				}
 			}
@@ -552,7 +542,7 @@ public class Window extends JFrame {
 							PCstate,
 							Integer.parseInt(PCzip),
 							Long.parseLong(PCphone),
-							PCarray.length,
+							pcArray.size(),
 							radio1.isSelected(),
 							Float.parseFloat(PCmoneySpent));
 					
@@ -575,10 +565,10 @@ public class Window extends JFrame {
 	private int getSelectedCustomerIndex() {
 		String selection = (String) nameBox.getSelectedItem();
 		int tempInt = 0;
-		for (int i = 0; i < PCarray.length; i++) {
-			if (selection.equals(PCarray[i].getFName())) {
+		for (int i = 0; i < pcArray.size(); i++) {
+			if (selection.equals(pcArray.get(tempInt).getFName())) {
 				tempInt = i;
-				i = PCarray.length;
+				i = pcArray.size();
 			}
 		}
 		return tempInt;
