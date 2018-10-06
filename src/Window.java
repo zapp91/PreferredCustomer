@@ -38,6 +38,9 @@ public class Window extends JFrame {
 	JLabel amountDiscountedLabel;
 	JLabel pendingPaymentLabel;
 	
+	JLabel transactionAmountLabelError; 
+	JLabel transactionWindowError;
+	
 	JLabel firstNameLabel;
 	JLabel lastNameLabel;
 	JLabel addressLabel;
@@ -50,14 +53,13 @@ public class Window extends JFrame {
 	
 	JLabel firstNameLabelError;  
 	JLabel lastNameLabelError;   
-	JLabel addressLabelError;    
+	JLabel addressLabelError;
 	JLabel cityLabelError;	     
 	JLabel stateLabelError;      
 	JLabel zipLabelError;        
 	JLabel phoneLabelError;      
-	JLabel moneySpentLabelError; 
-	                       
-	JLabel addCustomerLabelError;
+	JLabel moneySpentLabelError;                     
+	JLabel addCustomerWindowError;
 	
 	JTextField currentSpentField;
 	JTextField currentDiscountField;
@@ -174,6 +176,14 @@ public class Window extends JFrame {
 		amountDiscountedLabel =	new JLabel("Discounted ");
 		pendingPaymentLabel = 	new JLabel("Pending Payment ");
 		
+		//error label set
+		transactionAmountLabelError = 	new JLabel("");
+		transactionWindowError = 		new JLabel("");
+		transactionWindowError.setPreferredSize(new Dimension(180, 25));
+		
+		transactionAmountLabelError.setForeground(Color.RED);
+		transactionWindowError.setForeground(Color.RED);
+		
 		//create text fields
 		currentSpentField = 	new JTextField(10);
 		currentDiscountField = 	new JTextField(10);
@@ -196,7 +206,6 @@ public class Window extends JFrame {
 		transactionAmountField.addActionListener(new transactionAmountFieldListener());
 		payButton.addActionListener(new payButtonListener());
 		
-		
 		//add main panel features
 		panel1.add(addNewCustomerButton);
 		
@@ -210,6 +219,7 @@ public class Window extends JFrame {
 		panel4.add(currentDiscountField);
 		
 		panel5.add(transactionAmountLabel);
+		panel5.add(transactionAmountLabelError);
 		panel5.add(transactionAmountField);
 		
 		panel6.add(amountDiscountedLabel);
@@ -217,11 +227,12 @@ public class Window extends JFrame {
 		
 		panel7.add(pendingPaymentLabel);
 		panel7.add(pendingPaymentField);
+		panel8.add(transactionWindowError);
 
-		panel8.add(payButton);
+		panel9.add(payButton);
 		
 		mainPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		mainPanel.setPreferredSize(new Dimension(250, 320));
+		mainPanel.setPreferredSize(new Dimension(260, 250));
 		
 		add(panel1);
 		
@@ -231,9 +242,10 @@ public class Window extends JFrame {
 		mainPanel.add(panel5);
 		mainPanel.add(panel6);
 		mainPanel.add(panel7);
+		mainPanel.add(panel8);
 		
 		add(mainPanel);
-		add(panel8);
+		add(panel9);
 		
 		revalidate();
 		repaint();
@@ -283,6 +295,7 @@ public class Window extends JFrame {
 		moneySpentLabel =	new JLabel("Money Spent ");
 		mailListLabel =		new JLabel("Mail List ");
 		
+		//error label set
 		firstNameLabelError = 	new JLabel("");
 		lastNameLabelError = 	new JLabel("");
 		addressLabelError = 	new JLabel("");
@@ -291,8 +304,17 @@ public class Window extends JFrame {
 		zipLabelError = 		new JLabel("");
 		phoneLabelError = 		new JLabel("");
 		moneySpentLabelError = 	new JLabel("");
+		addCustomerWindowError = new JLabel("");
 		
-		addCustomerLabelError = new JLabel("");
+		firstNameLabelError.setForeground(Color.RED);
+		lastNameLabelError.setForeground(Color.RED);
+		addressLabelError.setForeground(Color.RED);
+		cityLabelError.setForeground(Color.RED);
+		stateLabelError.setForeground(Color.RED);
+		zipLabelError.setForeground(Color.RED);
+		phoneLabelError.setForeground(Color.RED);
+		moneySpentLabelError.setForeground(Color.RED);
+		addCustomerWindowError.setForeground(Color.RED);
 		
 		//create text fields
 		firstNameField = 	new JTextField(10);
@@ -348,17 +370,18 @@ public class Window extends JFrame {
 		panel9.add(mailListLabel);
 		panel9.add(radio1);
 		panel9.add(radio2);
+		panel9.setPreferredSize(new Dimension(280,30));
 		
-		panel10.add(clearButton);
-		panel10.add(addCusButton);
+		panel10.add(addCustomerWindowError);
+		
+		panel11.add(clearButton);
+		panel11.add(addCusButton);
 
-		panel11.add(returnButton);
-		panel11.setPreferredSize(new Dimension(280,40));
-		
-		panel12.add(addCustomerLabelError);
+		panel12.add(returnButton);
+		panel12.setPreferredSize(new Dimension(280,40));
 		
 		mainPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		mainPanel.setPreferredSize(new Dimension(250, 320));
+		mainPanel.setPreferredSize(new Dimension(250, 350));
 		
 		mainPanel.add(panel1);
 		mainPanel.add(panel2);
@@ -369,9 +392,9 @@ public class Window extends JFrame {
 		mainPanel.add(panel7);
 		mainPanel.add(panel8);
 		mainPanel.add(panel9);
+		mainPanel.add(panel10);
 			
 		add(mainPanel);
-		add(panel10);
 		add(panel11);
 		add(panel12);
 		
@@ -393,14 +416,19 @@ public class Window extends JFrame {
 			transactionAmountField.setText("");
 			amountDiscountedField.setText("");
 			pendingPaymentField.setText("");
+			transactionAmountLabelError.setText("");
+			transactionWindowError.setText("");
+			
 		}
 	}
 	
 	private class transactionAmountFieldListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
-				tempInt = getSelectedCustomerIndex();
+				transactionAmountLabelError.setText("");
+				transactionWindowError.setText("");
 				
+				tempInt = getSelectedCustomerIndex();
 				calculatedAmountDiscounted = Float.parseFloat(transactionAmountField.getText()) * pcArray.get(tempInt).getDiscountRate();
 				calculatedPendingPayment = Float.parseFloat(transactionAmountField.getText()) - calculatedAmountDiscounted;
 				
@@ -408,8 +436,8 @@ public class Window extends JFrame {
 				pendingPaymentField.setText("$" + String.format("%.2f", calculatedPendingPayment));
 			}
 			catch (Exception ex) {
-				amountDiscountedField.setText("Improper Input");
-				pendingPaymentField.setText("Improper Input");
+				transactionAmountLabelError.setText("*");
+				transactionWindowError.setText("Improper Input");
 			}
 		}
 	}
@@ -417,14 +445,25 @@ public class Window extends JFrame {
 	private class payButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
-				tempInt = getSelectedCustomerIndex();
-				if (tempInt != -1) {
+				transactionAmountLabelError.setText("");
+				transactionWindowError.setText("");
+				
+				if (nameBox.getSelectedIndex() == -1) {
+					transactionWindowError.setText("No Customer Selected");
+				}
+				else if (pendingPaymentField.getText().length() == 0) {
+					transactionAmountLabelError.setText("*");
+					transactionWindowError.setText("Type amount and press Enter");
+				}
+				else {
+					tempInt = getSelectedCustomerIndex();
 					pcArray.get(tempInt).addMoneySpent(Float.parseFloat(pendingPaymentField.getText().substring(1)));
 					nameBox.setSelectedIndex(tempInt);
 				}
 			}
 			catch (Exception ex) {
-				//do nothing
+				transactionAmountLabelError.setText("*");
+				transactionWindowError.setText("Invalid Input");
 			}
 		}
 	}
@@ -450,7 +489,7 @@ public class Window extends JFrame {
 			zipLabelError.setText("");
 			phoneLabelError.setText("");
 			moneySpentLabelError.setText("");
-			addCustomerLabelError.setText("");
+			addCustomerWindowError.setText("");
 			
 			PCfName = 		firstNameField.getText();
 			PClName = 		lastNameField.getText();
@@ -531,7 +570,7 @@ public class Window extends JFrame {
 				}
 				
 				if (error) {
-					addCustomerLabelError.setText("Input Error");
+					addCustomerWindowError.setText("Input Error");
 				}
 				else {
 					PreferredCustomer newPC = new PreferredCustomer(
@@ -546,7 +585,7 @@ public class Window extends JFrame {
 							radio1.isSelected(),
 							Float.parseFloat(PCmoneySpent));
 					
-					//PCarray
+					//pcArray
 				}
 
 			}
@@ -566,7 +605,7 @@ public class Window extends JFrame {
 		String selection = (String) nameBox.getSelectedItem();
 		int tempInt = 0;
 		for (int i = 0; i < pcArray.size(); i++) {
-			if (selection.equals(pcArray.get(tempInt).getFName())) {
+			if (selection.equals(pcArray.get(i).getFName())) {
 				tempInt = i;
 				i = pcArray.size();
 			}
