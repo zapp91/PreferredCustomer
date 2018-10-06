@@ -5,16 +5,8 @@ public class Customer extends Person {
 	private int cusNum;
 	private boolean mailList;
 	
-	/**
-	 * @param fName
-	 * @param lName
-	 * @param address
-	 * @param phone
-	 * @param cusNum
-	 * @param mailList
-	 */
-	public Customer(String fName, String lName, String address, String phone, int cusNum, boolean mailList) {
-		super(fName, lName, address, phone);
+	public Customer(String fName, String lName, String streetAddress, String city, String state, int zip, long phone, int cusNum, boolean mailList) {
+		super(fName, lName, streetAddress, city, state, zip, phone);
 		this.cusNum = cusNum;
 		this.mailList = mailList;
 	}
@@ -35,7 +27,5 @@ public class Customer extends Person {
 	public void setMailList(boolean mailList) {
 		this.mailList = mailList;
 	}
-	
-	
 	
 }

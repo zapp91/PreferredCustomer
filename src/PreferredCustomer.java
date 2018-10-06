@@ -4,17 +4,8 @@ public class PreferredCustomer extends Customer {
 
 	private float amountSpent;
 	
-	/**
-	 * @param fName
-	 * @param lName
-	 * @param address
-	 * @param phone
-	 * @param cusNum
-	 * @param mailList
-	 * @param amountSpent
-	 */
-	public PreferredCustomer(String fName, String lName, String address, String phone, int cusNum, boolean mailList, float amountSpent) {
-		super(fName, lName, address, phone, cusNum, mailList);
+	public PreferredCustomer(String fName, String lName, String streetAddress, String city, String state, int zip, long phone, int cusNum, boolean mailList, float amountSpent) {
+		super(fName, lName, streetAddress, city, state, zip, phone, cusNum, mailList);
 		this.amountSpent = amountSpent;
 	}
 

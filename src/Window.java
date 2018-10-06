@@ -16,6 +16,10 @@ public class Window extends JFrame {
 	JPanel panel6;
 	JPanel panel7;
 	JPanel panel8;
+	JPanel panel9;
+	JPanel panel10;
+	JPanel panel11;
+	JPanel panel12;
 	
 	JButton addNewCustomerButton;
 	JButton payButton;
@@ -36,9 +40,23 @@ public class Window extends JFrame {
 	JLabel firstNameLabel;
 	JLabel lastNameLabel;
 	JLabel addressLabel;
+	JLabel cityLabel;
+	JLabel stateLabel;
+	JLabel zipLabel; 
 	JLabel phoneLabel;
 	JLabel moneySpentLabel; 
 	JLabel mailListLabel;
+	
+	JLabel firstNameLabelError;  
+	JLabel lastNameLabelError;   
+	JLabel addressLabelError;    
+	JLabel cityLabelError;	     
+	JLabel stateLabelError;      
+	JLabel zipLabelError;        
+	JLabel phoneLabelError;      
+	JLabel moneySpentLabelError; 
+	                       
+	JLabel addCustomerLabelError;
 	
 	JTextField currentSpentField;
 	JTextField currentDiscountField;
@@ -48,7 +66,10 @@ public class Window extends JFrame {
 	
 	JTextField firstNameField;
 	JTextField lastNameField; 
-	JTextField addressField;	
+	JTextField addressField;
+	JTextField cityField;	
+	JTextField stateField;
+	JTextField zipField;
 	JTextField phoneField;
 	JTextField moneySpentField;
 	
@@ -61,15 +82,28 @@ public class Window extends JFrame {
 	float calculatedAmountDiscounted;
 	float calculatedPendingPayment;
 	
+	String PCfName;
+	String PClName;
+	String PCaddress;
+	String PCcity;
+	String PCstate;
+	String PCzip;
+	String PCphone;
+	String PCmoneySpent;
+	
+	boolean error;
+	
+	StringBuilder strBuild;
+	
 	private final int WINDOW_WIDTH = 300;
-	private final int WINDOW_HEIGHT = 370;
+	private final int WINDOW_HEIGHT = 460;
 	
 	private PreferredCustomer[] PCarray = {
-		new PreferredCustomer("Royce","Duncan","123 Roady rd","8501234567",1,true,750.00f),
-		new PreferredCustomer("Stevie","Nicks","456 Streety st","8507654321",2,false,1200.00f),
-		new PreferredCustomer("Eric","Clapton","789 Circly cir","8509632587",3,false,2075.00f),
-		new PreferredCustomer("Lindsey","Stirling","741 Highway hwy","8508521478",4,true,200.00f),
-		new PreferredCustomer("John","Ray","456 Streety st","8507654321",5,false,1600.00f)
+		new PreferredCustomer("Royce","Duncan","123 Roady rd","Panama City","FL",32405,8501234567L,1, true, 750.00f),
+		new PreferredCustomer("Stevie","Nicks","456 Streety st","Panama City","FL",32405,8501234567L,2,false,1200.00f),
+		new PreferredCustomer("Eric","Clapton","789 Circly cir","Panama City","FL",32405,8501234567L,3,false,2075.00f),
+		new PreferredCustomer("Lindsey","Stirling","741 Highway hwy","Panama City","FL",32405,8501234567L,4,true,200.00f),
+		new PreferredCustomer("John","Ray","456 Streety st","Panama City","FL",32405,8501234567L,5,false,1600.00f)
 	};
 	
 	private String[] names = {
@@ -119,6 +153,10 @@ public class Window extends JFrame {
 		panel6 = new JPanel();
 		panel7 = new JPanel();
 		panel8 = new JPanel();
+		panel9 = new JPanel();
+		panel10 = new JPanel();
+		panel11 = new JPanel();
+		panel12 = new JPanel();
 		
 		//buttons
 		addNewCustomerButton = new JButton("Add New Customer");
@@ -183,7 +221,7 @@ public class Window extends JFrame {
 		panel8.add(payButton);
 		
 		mainPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		mainPanel.setPreferredSize(new Dimension(260, 220));
+		mainPanel.setPreferredSize(new Dimension(250, 320));
 		
 		add(panel1);
 		
@@ -198,6 +236,7 @@ public class Window extends JFrame {
 		add(panel8);
 		
 		revalidate();
+		repaint();
 	}
 	
 	private void buildAddCus() {
@@ -215,6 +254,10 @@ public class Window extends JFrame {
 		panel6 = new JPanel();
 		panel7 = new JPanel();
 		panel8 = new JPanel();
+		panel9 = new JPanel();
+		panel10 = new JPanel();
+		panel11 = new JPanel();
+		panel12 = new JPanel();
 		
 		//buttons
 		clearButton = new JButton("Clear");
@@ -232,15 +275,32 @@ public class Window extends JFrame {
 		//create labels
 		firstNameLabel = 	new JLabel("First Name ");
 		lastNameLabel = 	new JLabel("Last Name ");
-		addressLabel = 		new JLabel("Address ");
+		addressLabel = 		new JLabel("Street Address ");
+		cityLabel =			new JLabel("City ");
+		stateLabel =		new JLabel("State ");
+		zipLabel =			new JLabel("Zip ");
 		phoneLabel =		new JLabel("Phone ");
 		moneySpentLabel =	new JLabel("Money Spent ");
 		mailListLabel =		new JLabel("Mail List ");
+		
+		firstNameLabelError = 	new JLabel("");
+		lastNameLabelError = 	new JLabel("");
+		addressLabelError = 	new JLabel("");
+		cityLabelError = 		new JLabel("");
+		stateLabelError = 		new JLabel("");
+		zipLabelError = 		new JLabel("");
+		phoneLabelError = 		new JLabel("");
+		moneySpentLabelError = 	new JLabel("");
+		
+		addCustomerLabelError = new JLabel("");
 		
 		//create text fields
 		firstNameField = 	new JTextField(10);
 		lastNameField = 	new JTextField(10);
 		addressField =		new JTextField(10);
+		cityField =			new JTextField(10);
+		stateField =		new JTextField(10);
+		zipField = 			new JTextField(10);
 		phoneField =		new JTextField(10);
 		moneySpentField = 	new JTextField(10);
 		
@@ -254,31 +314,50 @@ public class Window extends JFrame {
 		
 		//add main panel features
 		panel1.add(firstNameLabel);
+		panel1.add(firstNameLabelError);
 		panel1.add(firstNameField);
 		
 		panel2.add(lastNameLabel);
+		panel2.add(lastNameLabelError);
 		panel2.add(lastNameField);
 		
 		panel3.add(addressLabel);
+		panel3.add(addressLabelError);
 		panel3.add(addressField);
 		
-		panel4.add(phoneLabel);
-		panel4.add(phoneField);
+		panel4.add(cityLabel);
+		panel4.add(cityLabelError);
+		panel4.add(cityField);
 		
-		panel5.add(moneySpentLabel);
-		panel5.add(moneySpentField);
+		panel5.add(stateLabel);
+		panel5.add(stateLabelError);
+		panel5.add(stateField);
 		
-		panel6.add(mailListLabel);
-		panel6.add(radio1);
-		panel6.add(radio2);
+		panel6.add(zipLabel);
+		panel6.add(zipLabelError);
+		panel6.add(zipField);
 		
-		panel7.add(clearButton);
-		panel7.add(addCusButton);
+		panel7.add(phoneLabel);
+		panel7.add(phoneLabelError);
+		panel7.add(phoneField);
+		
+		panel8.add(moneySpentLabel);
+		panel8.add(moneySpentLabelError);
+		panel8.add(moneySpentField);
+		
+		panel9.add(mailListLabel);
+		panel9.add(radio1);
+		panel9.add(radio2);
+		
+		panel10.add(clearButton);
+		panel10.add(addCusButton);
 
-		panel8.add(returnButton);
+		panel11.add(returnButton);
+		
+		panel12.add(addCustomerLabelError);
 		
 		mainPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		mainPanel.setPreferredSize(new Dimension(260, 220));
+		mainPanel.setPreferredSize(new Dimension(250, 320));
 		
 		mainPanel.add(panel1);
 		mainPanel.add(panel2);
@@ -286,12 +365,17 @@ public class Window extends JFrame {
 		mainPanel.add(panel4);
 		mainPanel.add(panel5);
 		mainPanel.add(panel6);
+		mainPanel.add(panel7);
+		mainPanel.add(panel8);
+		mainPanel.add(panel9);
 			
 		add(mainPanel);
-		add(panel7);
-		add(panel8);
+		add(panel10);
+		add(panel11);
+		add(panel12);
 		
 		revalidate();
+		repaint();
 	}
 	
 	private class addNewCusButtonListener implements ActionListener {
@@ -356,20 +440,94 @@ public class Window extends JFrame {
 	
 	private class addCusButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			String PCfName = 		firstNameField.getText();
-			String PClName = 		lastNameField.getText();
-			String PCaddress = 		addressField.getText();
-			String PCphone = 		phoneField.getText();
-			String PCmoneySpent = 	moneySpentField.getText();
+			PCfName = 		firstNameField.getText();
+			PClName = 		lastNameField.getText();
+			PCaddress = 	addressField.getText();
+			PCcity = 		cityField.getText();
+			PCstate = 		stateField.getText();
+			PCzip = 		zipField.getText();
+			PCphone = 		phoneField.getText();
+			PCmoneySpent =	moneySpentField.getText();
+			error = false;
 			
 			try {
-				PCfName = properCase(PCfName);
-				PClName = properCase(PClName);
+				strBuild = new StringBuilder(PCfName.toLowerCase().trim());
+				if (PCfName.matches("^[a-z]+$")) {
+					strBuild.setCharAt(0,Character.toUpperCase(strBuild.charAt(0)));
+					PCfName = strBuild.toString();
+				}
+				else {
+					error = true;
+					firstNameLabelError.setText("*");
+				}
 				
-			} catch (Exception e1) {
-				System.out.println(e1);
+				strBuild = new StringBuilder(PClName.toLowerCase().trim());
+				if (PClName.matches("^[a-z]+$")) {
+					strBuild.setCharAt(0,Character.toUpperCase(strBuild.charAt(0)));
+					PClName = strBuild.toString();
+				}
+				else {
+					error = true;
+				}
+				
+				strBuild = new StringBuilder(PCaddress.toLowerCase().trim());
+				if (PCaddress.matches("^[0-9]+[\\s][a-z]+$")) {
+				
+				}
+				else {
+					error = true;
+				}
+
+				strBuild = new StringBuilder(PCcity.toLowerCase().trim());
+				if (PCcity.matches("^[a-z]+$")) {
+					
+				}
+				else {
+					error = true;
+				}
+				
+				strBuild = new StringBuilder(PCstate.toUpperCase().trim());
+				if (PCstate.matches("^[a-z]{2}$")) {
+					
+				}
+				else {
+					error = true;
+				}
+				
+				strBuild = new StringBuilder(PCzip.trim());
+				if (PCzip.matches("^[0-9]{5}$")) {
+					
+				}
+				else {
+					error = true;
+				}
+				
+				strBuild = new StringBuilder(PCphone.trim());
+				if (PCphone.matches("^[0-9]{10}$")) {
+					
+				}
+				else {
+					error = true;
+				}
+				
+				strBuild = new StringBuilder(PCmoneySpent.trim());
+				if (PCmoneySpent.matches("^([0-9]*\\.[0-9]+|[0-9]+|[0-9]+\\.)$")) {
+					
+				}
+				else {
+					error = true;
+				}
+				
+				if (error) {
+					throw new Exception("Customer input error.");
+				}
+				else {
+					
+				}
 			}
-			
+			catch (Exception ex) {
+				System.out.println(ex);
+			}
 		}
 	}
 	
@@ -390,18 +548,7 @@ public class Window extends JFrame {
 		}
 		return tempInt;
 	}
-	
-	private String properCase(String name) throws Exception{
-		StringBuilder strBuild = new StringBuilder(name.toLowerCase().trim());
-		if (name.matches("[a-z]+")) {
-			strBuild.setCharAt(0,Character.toUpperCase(strBuild.charAt(0)));
-		}
-		else {
-			throw new Exception("Inproper Name Format");
-		}
-		return strBuild.toString();
-	}
-	
+
 	public static void main(String[] args) {
 		new Window();
 	}

@@ -4,19 +4,19 @@ public class Person {
 
 	private String fName;
 	private String lName;
-	private String address;
-	private String phone;
+	private String streetAddress;
+	private String city;
+	private String state;
+	private int zip;
+	private long phone;
 	
-	/**
-	 * @param fName
-	 * @param lName
-	 * @param address
-	 * @param phone
-	 */
-	public Person(String fName, String lName, String address, String phone) {
+	public Person(String fName, String lName, String streetAddress, String city, String state, int zip, long phone) {
 		this.fName = fName;
 		this.lName = lName;
-		this.address = address;
+		this.streetAddress = streetAddress;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
 		this.phone = phone;
 	}
 
@@ -29,11 +29,23 @@ public class Person {
 		return lName;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getStreetAddress() {
+		return streetAddress;
 	}
 	
-	public String getPhone() {
+	public String city() {
+		return city;
+	}
+
+	public String state() {
+		return state;
+	}
+	
+	public int zip() {
+		return zip;
+	}
+	
+	public long getPhone() {
 		return phone;
 	}
 	
@@ -46,11 +58,23 @@ public class Person {
 		this.lName = lName;
 	}
 	
-	public void setAddress(String address) {
-		this.address = address;
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
 	}
 	
-	public void setPhone(String phone) {
+	public void setCity() {
+		this.city = city;
+	}
+
+	public void setState() {
+		this.state = state;
+	}
+	
+	public void setZip() {
+		this.zip = zip;
+	}
+	
+	public void setPhone(long phone) {
 		this.phone = phone;
 	}
 	
