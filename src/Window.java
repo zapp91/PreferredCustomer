@@ -119,6 +119,7 @@ public class Window extends JFrame {
 	//ArrayList for Checkout windows's Customer ComboBox
 	private ArrayList<String> namesArray = new ArrayList<String>();
 	
+	//Window constructor
 	public Window() {
 		
 		//initializes the PreferredCustomer array with PreferredCustomers
@@ -152,7 +153,7 @@ public class Window extends JFrame {
 		//display the window
 		setVisible(true);
 		
-	}
+	} //end window constructor
 	
 	
 	//This function builds the Checkout window
@@ -279,7 +280,7 @@ public class Window extends JFrame {
 		//redisplays the Checkout JFrame over the New Customer JFrame
 		revalidate();
 		repaint();
-	}
+	} //end buildCheckout method
 	
 	//This function builds the Add New Customer window
 	//called by the Checkout window's Add New Customer button
@@ -328,9 +329,9 @@ public class Window extends JFrame {
 		lastNameLabel = 	new JLabel("Last Name ");
 		addressLabel = 		new JLabel("Street Address ");
 		cityLabel =			new JLabel("City ");
-		stateLabel =		new JLabel("State ");
+		stateLabel =		new JLabel("State (2 letters) ");
 		zipLabel =			new JLabel("Zip ");
-		phoneLabel =		new JLabel("Phone ");
+		phoneLabel =		new JLabel("Phone (10 digit)");
 		moneySpentLabel =	new JLabel("Money Spent ");
 		mailListLabel =		new JLabel("Mail List ");
 		
@@ -449,242 +450,236 @@ public class Window extends JFrame {
 		//redisplays the New Customer JFrame over the Checkout JFrame
 		revalidate();
 		repaint();
-	}
+	} //end buildAddCus method
 	
 	//listener for the Checkout window's Add New Customer button
 	private class addNewCusButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			buildAddCus();
-		}
-	}
+			buildAddCus();	//builds the New Customer window
+		} //end actionPerformed method
+	} //end actionPerformed class
 	
 	//listener for the Checkout window's Name ComboBox
 	private class nameComboBoxListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			tempInt = getSelectedCustomerIndex();
-			currentSpentField.setText("$" + String.format("%.2f", pcArray.get(tempInt).getAmountSpent()));
-			currentDiscountField.setText(((int)(100 * pcArray.get(tempInt).getDiscountRate())) + "%");
-			transactionAmountField.setText("");
-			amountDiscountedField.setText("");
-			pendingPaymentField.setText("");
-			transactionAmountLabelError.setText("");
-			checkoutWindowError.setText("");
-			
-		}
-	}
+			tempInt = getSelectedCustomerIndex();	//retrieves the selected names array index
+			currentSpentField.setText("$" + String.format("%.2f", pcArray.get(tempInt).getAmountSpent())); //retrieves the selected customers money spent and formats the text before displaying it
+			currentDiscountField.setText(((int)(100 * pcArray.get(tempInt).getDiscountRate())) + "%");	//retrieves the selected customers discount rate and formats the text before displaying it
+			transactionAmountField.setText("");	//clears any previous transaction amount text
+			amountDiscountedField.setText("");	//clears any previous discount text
+			pendingPaymentField.setText("");	//clears any previous pending payment text
+			transactionAmountLabelError.setText("");	//clears any previous transaction amount error text
+			checkoutWindowError.setText("");	//clears any previous Checkout window error text
+		} //end actionPerformed method
+	} //end nameComboBoxListener class
 	
 	//listener for the Checkout window's Transaction Amount text field
 	private class transactionAmountFieldListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
-				transactionAmountLabelError.setText("");
-				checkoutWindowError.setText("");
+				transactionAmountLabelError.setText("");	//clears any previous transaction amount error text
+				checkoutWindowError.setText("");			//clears any previous Checkout window error text
 				
+				//if the name ComboBox has a selection then..
 				if (nameBox.getSelectedIndex() != -1) {
-					tempInt = getSelectedCustomerIndex();
-					calculatedAmountDiscounted = Float.parseFloat(transactionAmountField.getText()) * pcArray.get(tempInt).getDiscountRate();
-					calculatedPendingPayment = Float.parseFloat(transactionAmountField.getText()) - calculatedAmountDiscounted;
-					amountDiscountedField.setText("$" + String.format("%.2f", calculatedAmountDiscounted));
-					pendingPaymentField.setText("$" + String.format("%.2f", calculatedPendingPayment));
-				}
+					tempInt = getSelectedCustomerIndex();	//retrieve customer index
+					calculatedAmountDiscounted = Float.parseFloat(transactionAmountField.getText()) * pcArray.get(tempInt).getDiscountRate();	//calculate amount discounted
+					calculatedPendingPayment = Float.parseFloat(transactionAmountField.getText()) - calculatedAmountDiscounted;					//calculate remaining amount to pay
+					amountDiscountedField.setText("$" + String.format("%.2f", calculatedAmountDiscounted));										//format and display calculated discount amount
+					pendingPaymentField.setText("$" + String.format("%.2f", calculatedPendingPayment));											//format and display calculated remaining amount to pay
+				} //else..
 				else {
-					checkoutWindowError.setText("No Customer Selected");
-				}
-			}
+					checkoutWindowError.setText("No Customer Selected");	//display an error message saying that no customers are selected
+				} //end if else sequence
+			} //end try
 			catch (Exception ex) {
-				transactionAmountLabelError.setText("*");
-				checkoutWindowError.setText("Improper Input");
-			}
-		}
-	}
+				transactionAmountLabelError.setText("*");		//display error marker
+				checkoutWindowError.setText("Improper Input");	//display an error message
+			} //end catch
+		} //end actionPerformed method
+	} //end transactionAmountFieldListener class
 	
 	//listener for the Checkout window's Pay button
 	private class payButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
-				transactionAmountLabelError.setText("");
-				checkoutWindowError.setText("");
+				transactionAmountLabelError.setText("");	//clears any previous transaction amount error text 
+				checkoutWindowError.setText("");            //clears any previous Checkout window error text      
 				
+				//if the name ComboBox doesn't have a selection then..
 				if (nameBox.getSelectedIndex() == -1) {
-					checkoutWindowError.setText("No Customer Selected");
-				}
+					checkoutWindowError.setText("No Customer Selected"); //display an error message say that none are selected
+				} //else if the pending payment field is empty
 				else if (pendingPaymentField.getText().length() == 0) {
-					transactionAmountLabelError.setText("*");
-					checkoutWindowError.setText("Type amount and press Enter");
-				}
+					transactionAmountLabelError.setText("*");                    //display error marker     
+					checkoutWindowError.setText("Type amount and press Enter");  //display an error message 
+				} //else ..
 				else {
-					tempInt = getSelectedCustomerIndex();
-					pcArray.get(tempInt).addMoneySpent(Float.parseFloat(pendingPaymentField.getText().substring(1)));
-					nameBox.setSelectedIndex(tempInt);
-				}
-			}
+					tempInt = getSelectedCustomerIndex();	//retrieve the selected names array index
+					pcArray.get(tempInt).addMoneySpent(Float.parseFloat(pendingPaymentField.getText().substring(1)));	//call method to add pending payment to the amount spend for the customer
+					nameBox.setSelectedIndex(tempInt);		//"reclick" the customers name from the ComboBox to update the window
+				} //end if else sequence
+			} //end try
 			catch (Exception ex) {
-				transactionAmountLabelError.setText("*");
-				checkoutWindowError.setText("Invalid Input");
-			}
-		}
-	}
+				transactionAmountLabelError.setText("*");      //display error marker     
+				checkoutWindowError.setText("Invalid Input");  //display an error message 
+			} //end catch
+		} //end actionPerformed method
+	} //end payButtonListener class
 	
 	
 	//listener for the New Customer window's clear button
 	private class clearButtonListern implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			firstNameField.setText("");
-			lastNameField.setText("");
-			addressField.setText("");
-			cityField.setText("");      
-			stateField.setText("");   
-			zipField.setText("");       
-			phoneField.setText("");     
-			moneySpentField.setText("");
+			firstNameField.setText("");		     //clears text for first name field
+			lastNameField.setText("");		     //clears text for last name field
+			addressField.setText("");		     //clears text for address field field
+			cityField.setText("");      	     //clears text for city field
+			stateField.setText("");   		     //clears text for state field
+			zipField.setText("");       	     //clears text for zip field
+			phoneField.setText("");     	     //clears text for phone field
+			moneySpentField.setText("");	     //clears text for money spent field
 			
-			firstNameLabelError.setText("");
-			lastNameLabelError.setText("");
-			addressLabelError.setText("");
-			cityLabelError.setText("");
-			stateLabelError.setText("");
-			zipLabelError.setText("");
-			phoneLabelError.setText("");
-			moneySpentLabelError.setText("");
-			addCustomerWindowError.setText("");
-		}
-	}
+			firstNameLabelError.setText("");     //clears text for first name error field   
+			lastNameLabelError.setText("");      //clears text for last name error field    
+			addressLabelError.setText("");       //clears text for address field error field
+			cityLabelError.setText("");          //clears text for city error field         
+			stateLabelError.setText("");         //clears text for state error field        
+			zipLabelError.setText("");           //clears text for zip error field          
+			phoneLabelError.setText("");         //clears text for phone error field        
+			moneySpentLabelError.setText("");    //clears text for money spent error field  
+			addCustomerWindowError.setText("");	 //clears text for New Customer window error field 
+		} //end actionPerformed method
+	} //end clearButtonListern class
 	
 	//listener for the New Customer window's Add Customer button
 	private class addCusButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
-			firstNameLabelError.setText("");
-			lastNameLabelError.setText("");
-			addressLabelError.setText("");
-			cityLabelError.setText("");
-			stateLabelError.setText("");
-			zipLabelError.setText("");
-			phoneLabelError.setText("");
-			moneySpentLabelError.setText("");
-			addCustomerWindowError.setText("");
+			firstNameLabelError.setText("");                //clears text for first name error field         
+			lastNameLabelError.setText("");                 //clears text for last name error field          
+			addressLabelError.setText("");                  //clears text for address field error field      
+			cityLabelError.setText("");                     //clears text for city error field               
+			stateLabelError.setText("");                    //clears text for state error field              
+			zipLabelError.setText("");                      //clears text for zip error field                
+			phoneLabelError.setText("");                    //clears text for phone error field              
+			moneySpentLabelError.setText("");               //clears text for money spent error field        
+			addCustomerWindowError.setText("");             //clears text for New Customer window error field
 			
-			PCfName = 		firstNameField.getText();
-			PClName = 		lastNameField.getText();
-			PCaddress = 	addressField.getText();
-			PCcity = 		cityField.getText();
-			PCstate = 		stateField.getText();
-			PCzip = 		zipField.getText();
-			PCphone = 		phoneField.getText();
-			PCmoneySpent =	moneySpentField.getText();
-			error = false;
+			PCfName = 		firstNameField.getText();		//retrieves text from first name field   
+			PClName = 		lastNameField.getText();		//retrieves text from last name field    
+			PCaddress = 	addressField.getText();			//retrieves text from address field field
+			PCcity = 		cityField.getText();			//retrieves text from city field         
+			PCstate = 		stateField.getText();			//retrieves text from state field        
+			PCzip = 		zipField.getText();				//retrieves text from zip field          
+			PCphone = 		phoneField.getText();			//retrieves text from phone field        
+			PCmoneySpent =	moneySpentField.getText();		//retrieves text from money spent field  
+			error = false;									//boolean used to detect invalid field inputs, set to false at start
 			
+			//this try block encapsulates all New Customer text field validation checks
 			try {
-				PCfName = PCfName.toLowerCase().trim();
-				strBuild = new StringBuilder(PCfName);
-				if (PCfName.matches("^[a-z]+$")) {
-					strBuild.setCharAt(0,Character.toUpperCase(strBuild.charAt(0)));
-					PCfName = strBuild.toString();
+				PCfName = PCfName.toLowerCase().trim();		//trims and lower cases first name
+				strBuild = new StringBuilder(PCfName);		//creates a StringBuilder based on the first name string
+				if (PCfName.matches("^[a-z]+$")) {			//if the name matches the regex then..
+					strBuild.setCharAt(0,Character.toUpperCase(strBuild.charAt(0)));	//uppercase the first letter
+					PCfName = strBuild.toString();										//reset the first name string from the StringBuilder results
+				} //else..
+				else {
+					error = true;						//set error boolean to true   
+					firstNameLabelError.setText("*");   //display an error marker
+				} //end if else sequence
+				
+				PClName = PClName.toLowerCase().trim(); //trims and lower cases last name                       
+				strBuild = new StringBuilder(PClName);  //creates a StringBuilder based on the last name string 
+				if (PClName.matches("^[a-z]+$")) {      //if the name matches the regex then..                   
+					strBuild.setCharAt(0,Character.toUpperCase(strBuild.charAt(0)));    //uppercase the first letter                                 
+					PClName = strBuild.toString();                                      //reset the last name string from the StringBuilder results 
+				} //else..
+				else {
+					error = true;                      //set error boolean to true
+					lastNameLabelError.setText("*");   //display an error marker  
+				} //end if else sequence
+				
+				PCaddress = PCaddress.toLowerCase().trim();          //trims and lower cases address                      
+				strBuild = new StringBuilder(PCaddress);             //creates a StringBuilder based on the address string 
+				if (PCaddress.matches("^[0-9]+[\\s][\\sa-z]+$")) {   //if the address matches the regex then..                  
+					PCaddress = strBuild.toString();				 	//reset the address string from the StringBuilder results 
+				} //else..
+				else {
+					error = true;                    //set error boolean to true
+					addressLabelError.setText("*");  //display an error marker  
+				} //end if else sequence
+				
+				PCcity = PCcity.toLowerCase().trim();      //trims and lower cases city                      
+				strBuild = new StringBuilder(PCcity);      //creates a StringBuilder based on the city string 
+				if (PCcity.matches("^[a-z]+$")) {          //if the city matches the regex then..                  
+					strBuild.setCharAt(0,Character.toUpperCase(strBuild.charAt(0)));    //uppercase the first letter                               
+					PCcity = strBuild.toString();                                       //reset the city string from the StringBuilder results
 				}
 				else {
-					error = true;
-					firstNameLabelError.setText("*");
-				}
+					error = true;                     //set error boolean to true
+					cityLabelError.setText("*");      //display an error marker  
+				} //end if else sequence
 				
-				PClName = PClName.toLowerCase().trim();
-				strBuild = new StringBuilder(PClName);
-				if (PClName.matches("^[a-z]+$")) {
-					strBuild.setCharAt(0,Character.toUpperCase(strBuild.charAt(0)));
-					PClName = strBuild.toString();
-				}
-				else {
-					error = true;
-					lastNameLabelError.setText("*");
-				}
-				
-				PCaddress = PCaddress.toLowerCase().trim();
-				strBuild = new StringBuilder(PCaddress);
-				if (PCaddress.matches("^[0-9]+[\\s][\\sa-z]+$")) {
-					PCaddress = strBuild.toString();
-				}
-				else {
-					error = true;
-					addressLabelError.setText("*");
-				}
-				
-				PCcity = PCcity.toLowerCase().trim();
-				strBuild = new StringBuilder(PCcity);
-				if (PCcity.matches("^[a-z]+$")) {
-					strBuild.setCharAt(0,Character.toUpperCase(strBuild.charAt(0)));
-					PCcity = strBuild.toString();
-				}
-				else {
-					error = true;
-					cityLabelError.setText("*");
-				}
-				
-				PCstate = PCstate.toUpperCase().trim();
-				strBuild = new StringBuilder(PCstate);
-				if (PCstate.matches("^[A-Z]{2}$")) {
-					boolean correctStateInput = false;
-					for (int i = 0; States.stateAbbreviations.length > i; i++) {
-						if (strBuild.toString().equals(States.stateAbbreviations[i])) {
-							correctStateInput = true;
-							i = States.stateAbbreviations.length;
-						}
-					}
+				PCstate = PCstate.toUpperCase().trim();    //trims and upper cases state                       
+				strBuild = new StringBuilder(PCstate);     //creates a StringBuilder based on the state string 
+				if (PCstate.matches("^[A-Z]{2}$")) {       //if the state matches the regex then..             
+					boolean correctStateInput = false;			//specific boolean to test for valid state input
+					for (int i = 0; States.stateAbbreviations.length > i; i++) {	//loops for each state abbreviation available
+						if (strBuild.toString().equals(States.stateAbbreviations[i])) {	//if the input string matches an abbreviation then..
+							correctStateInput = true;										//set the state boolean to true
+							i = States.stateAbbreviations.length;							//set the iterating variable to the last index
+						} //end if
+					} //end for loop
 					
-					if(correctStateInput) {
-						PCstate = strBuild.toString();
-					}
+					if(correctStateInput) {				//if the state boolean is true then..
+						PCstate = strBuild.toString();		//reset the state string from the StringBuilder results
+					} //else..
 					else {
-						error = true;
-						stateLabelError.setText("*");
-					}
-				}
+						error = true;                 //set error boolean to true
+						stateLabelError.setText("*"); //display an error marker  
+					} //end if else sequence
+				} //else..
 				else {
-					error = true;
-					stateLabelError.setText("*");
-				}
+					error = true;                     //set error boolean to true
+					stateLabelError.setText("*");     //display an error marker  
+				} //end if else sequence
 				
-				PCzip = PCzip.trim();
-				strBuild = new StringBuilder(PCzip);
-				if (PCzip.matches("^[0-9]{5}$")) {
-					PCzip = strBuild.toString();
+				PCzip = PCzip.trim();                 //trims zip                      
+				
+				if (!PCzip.matches("^[0-9]{5}$")) {    //if the zip doesn't matches the regex then..            
+					error = true;                     		//set error boolean to true
+					zipLabelError.setText("*");       		//display an error marker  
 				}
+
+				PCphone = PCphone.trim();                          //trims phone                          
+				strBuild = new StringBuilder(PCphone);             //creates a StringBuilder based on the phone string    
+				for (int i = 0; strBuild.length() > i; i++) {      //loops through every character in the phone StringBuilder               
+					if (!Character.isDigit(strBuild.charAt(i))) {		//if a character is not a digit then..
+						strBuild.deleteCharAt(i);							//delete that character..
+						i--;												//reset the iterating variable back one
+					} //end if
+				} //end for loop
+				
+				PCphone = strBuild.substring(0,strBuild.length());	//reset the phone string from the StringBuilder results
+				if (!PCphone.matches("^[0-9]{10}$")) { 	//if phone string doesn't match regex then..
+					error = true;                     		//set error boolean to true
+					phoneLabelError.setText("*");     		//display an error marker 
+				} //end if
+				
+				PCmoneySpent = PCmoneySpent.trim();                                    //trims money spent string                         
+				if (!PCmoneySpent.matches("^([0-9]*\\.[0-9]+|[0-9]+|[0-9]+\\.)$")) {    //if the money spent string doesn't matches the regex then..                
+					error = true;                       //set error boolean to true
+					moneySpentLabelError.setText("*");  //display an error marker  
+				} //end if
+				
+				if (error) {										//if an input error was detected then..
+					addCustomerWindowError.setForeground(Color.RED);	//set the Add Customer Window error text color to red
+					addCustomerWindowError.setText("Input Error");		//add an input error message
+				} //else..
 				else {
-					error = true;
-					zipLabelError.setText("*");
-				}
-				
-				PCphone = PCphone.trim();
-				strBuild = new StringBuilder(PCphone);
-				for (int i = 0; strBuild.length() > i; i++) {
-					if (!Character.isDigit(strBuild.charAt(i))) {
-						strBuild.deleteCharAt(i);
-						i--;
-					}
-				}
-				
-				PCphone = strBuild.substring(0,strBuild.length());
-				if (PCphone.matches("^[0-9]{10}$")) {
-					PCphone = strBuild.toString();
-				}
-				else {
-					error = true;
-					phoneLabelError.setText("*");
-				}
-				
-				PCmoneySpent = PCmoneySpent.trim();
-				strBuild = new StringBuilder(PCmoneySpent);
-				if (PCmoneySpent.matches("^([0-9]*\\.[0-9]+|[0-9]+|[0-9]+\\.)$")) {
-					PCmoneySpent = strBuild.toString();
-				}
-				else {
-					error = true;
-					moneySpentLabelError.setText("*");
-				}
-				
-				if (error) {
-					addCustomerWindowError.setForeground(Color.RED);
-					addCustomerWindowError.setText("Input Error");
-				}
-				else {
+					
+					//create a new preferred customer from the input fields
 					PreferredCustomer newPC = new PreferredCustomer(
 							PCfName,
 							PClName,
@@ -697,40 +692,40 @@ public class Window extends JFrame {
 							radio1.isSelected(),
 							Float.parseFloat(PCmoneySpent));
 					
-					pcArray.add(newPC);
-					namesArray.add(newPC.getFName());
-					addCustomerWindowError.setForeground(new Color(0,153,0));
-					addCustomerWindowError.setText("Customer \"" + PCfName + "\" Saved!");
-				}
-			}
-			catch (Exception ex) {
-				System.out.println(ex);
-			}
-		}
-	}
+					pcArray.add(newPC);														//adds the new customer to the preferred customer array
+					namesArray.add(newPC.getFName());										//adds the new customer's name to the name array
+					addCustomerWindowError.setForeground(new Color(0,153,0));				//set the Add Customer Window error text color to green
+					addCustomerWindowError.setText("Customer \"" + PCfName + "\" Saved!");	//add a successful save message
+				} //end if else sequence
+			} //end try block
+			catch (Exception ex) {			//if an exception occurred then..
+				System.out.println(ex);			//print the exception
+			} //end catch block
+		} //end actionPerformed method
+	} //end addCusButtonListener class
 	
 	//listener for the New Customer window's Return to Checkout button
 	private class returnButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			buildCheckout();
-		}
-	}
+			buildCheckout();	//rebuilds the Checkout window
+		} //end actionPerformed method
+	} //end returnButtonListener class
 	
 	//method to retrieve the the ComboBoxes's selected Name's preferred customer array index, that was a mouth full
 	private int getSelectedCustomerIndex() {
-		String selection = (String) nameBox.getSelectedItem();
-		tempInt = 0;
-		for (int i = 0; i < pcArray.size(); i++) {
-			if (selection.equals(pcArray.get(i).getFName())) {
-				tempInt = i;
-				i = pcArray.size();
-			}
-		}
-		return tempInt;
-	}
+		String selection = (String) nameBox.getSelectedItem();	//retrieves the selected name
+		tempInt = 0;											//resets the tempInt to zero
+		for (int i = 0; i < pcArray.size(); i++) {				//loops for every preferred customer in the array
+			if (selection.equals(pcArray.get(i).getFName())) {		//if a customer matches the chosen name then..
+				tempInt = i;											//sets the tempInt to the arrays index
+				i = pcArray.size();										//sets the iterator to the last index
+			} //end if
+		} //end for loop
+		return tempInt;	//return the array index
+	} //end getSelectedCustomerIndex method
 
 	//nested main method
 	public static void main(String[] args) {
-		new Window();
-	}
-}
+		new Window(); //creates a new window
+	} //end main method
+} //end window class
