@@ -7,7 +7,7 @@ import java.util.ArrayList;	//needed for ArrayLists
 
 public class Window extends JFrame {
 	
-	//panels and panel set for Checkout & New Customer windows.
+	//panels for Checkout & New Customer windows.
 	JPanel mainPanel;
 	JPanel panel1;
 	JPanel panel2;
@@ -281,12 +281,14 @@ public class Window extends JFrame {
 		repaint();
 	}
 	
+	//This function builds the Add New Customer window
+	//called by the Checkout window's Add New Customer button
 	private void buildAddCus() {
 		
 		//clears the Checkout JFrame components
 		getContentPane().removeAll();
 		
-		//create sub panels
+		//creates panel objects for Checkout window
 		panel1 = new JPanel();
 		panel2 = new JPanel();
 		panel3 = new JPanel();
@@ -303,20 +305,25 @@ public class Window extends JFrame {
 		//creates main panel object for Checkout window
 		mainPanel = new JPanel();
 		
-		//buttons
+		//button to clear error labels and text fields
 		clearButton = new JButton("Clear");
+		
+		//button to add New Customer details to the PreferredCustomer array
 		addCusButton = new JButton("Add Customer");
+		
+		//button to open the Checkout window
 		returnButton = new JButton("Return to Checkout");
 		
-		//radio buttons
+		//radio buttons to choose customer's mail listing preference
 		radio1 = new JRadioButton("Yes", true);
 		radio2 = new JRadioButton("No");
 		
+		//creates mail list button group and adds the buttons to it
 		mailListRadioGroup = new ButtonGroup();
 		mailListRadioGroup.add(radio1);
 		mailListRadioGroup.add(radio2);
 		
-		//create labels
+		//creates descriptive labels for Checkout window
 		firstNameLabel = 	new JLabel("First Name ");
 		lastNameLabel = 	new JLabel("Last Name ");
 		addressLabel = 		new JLabel("Street Address ");
@@ -327,7 +334,7 @@ public class Window extends JFrame {
 		moneySpentLabel =	new JLabel("Money Spent ");
 		mailListLabel =		new JLabel("Mail List ");
 		
-		//error label set
+		//creates error labels for Checkout window
 		firstNameLabelError = 	new JLabel("");
 		lastNameLabelError = 	new JLabel("");
 		addressLabelError = 	new JLabel("");
@@ -338,6 +345,7 @@ public class Window extends JFrame {
 		moneySpentLabelError = 	new JLabel("");
 		addCustomerWindowError = new JLabel("");
 		
+		//sets color for error labels
 		firstNameLabelError.setForeground(Color.RED);
 		lastNameLabelError.setForeground(Color.RED);
 		addressLabelError.setForeground(Color.RED);
@@ -348,7 +356,7 @@ public class Window extends JFrame {
 		moneySpentLabelError.setForeground(Color.RED);
 		addCustomerWindowError.setForeground(Color.RED);
 		
-		//create text fields
+		//creates text fields for New Customer window
 		firstNameField = 	new JTextField(10);
 		lastNameField = 	new JTextField(10);
 		addressField =		new JTextField(10);
@@ -358,15 +366,15 @@ public class Window extends JFrame {
 		phoneField =		new JTextField(10);
 		moneySpentField = 	new JTextField(10);
 		
-		//change component sizes
+		//change ComboBox component size
 		nameBox.setPreferredSize(new Dimension(115, 25));
 		
-		//listeners
+		//creates listeners for buttons
 		clearButton.addActionListener(new clearButtonListern());
 		addCusButton.addActionListener(new addCusButtonListener());
 		returnButton.addActionListener(new returnButtonListener());
 		
-		//add main panel features
+		//adds components to the main panel set
 		panel1.add(firstNameLabel);
 		panel1.add(firstNameLabelError);
 		panel1.add(firstNameField);
@@ -404,17 +412,18 @@ public class Window extends JFrame {
 		panel9.add(radio2);
 		panel9.setPreferredSize(new Dimension(280,30));
 		
+		//adds Add Customer Error Text component to middles panel
 		panel10.add(addCustomerWindowError);
 		
+		//adds Clear and Add Customer button components to lower panel
 		panel11.add(clearButton);
 		panel11.add(addCusButton);
 
+		//adds Return to Checkout button component to lowest panel, sets its size
 		panel12.add(returnButton);
 		panel12.setPreferredSize(new Dimension(280,40));
 		
-		mainPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		mainPanel.setPreferredSize(new Dimension(250, 350));
-		
+		//adds the main panel set to the main panel
 		mainPanel.add(panel1);
 		mainPanel.add(panel2);
 		mainPanel.add(panel3);
@@ -425,21 +434,31 @@ public class Window extends JFrame {
 		mainPanel.add(panel8);
 		mainPanel.add(panel9);
 		mainPanel.add(panel10);
-			
+		
+		//sets the main panel's flow characteristics
+		mainPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		mainPanel.setPreferredSize(new Dimension(250, 350));
+		
+		//adds the main panel to the top of the New Customer JFrame
 		add(mainPanel);
+		
+		//adds the button panels to the bottom of the New Customer JFrame
 		add(panel11);
 		add(panel12);
 		
+		//redisplays the New Customer JFrame over the Checkout JFrame
 		revalidate();
 		repaint();
 	}
 	
+	//listener for the Checkout window's Add New Customer button
 	private class addNewCusButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			buildAddCus();
 		}
 	}
 	
+	//listener for the Checkout window's Name ComboBox
 	private class nameComboBoxListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			tempInt = getSelectedCustomerIndex();
@@ -454,6 +473,7 @@ public class Window extends JFrame {
 		}
 	}
 	
+	//listener for the Checkout window's Transaction Amount text field
 	private class transactionAmountFieldListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
@@ -478,6 +498,7 @@ public class Window extends JFrame {
 		}
 	}
 	
+	//listener for the Checkout window's Pay button
 	private class payButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
@@ -504,6 +525,8 @@ public class Window extends JFrame {
 		}
 	}
 	
+	
+	//listener for the New Customer window's clear button
 	private class clearButtonListern implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			firstNameField.setText("");
@@ -527,6 +550,7 @@ public class Window extends JFrame {
 		}
 	}
 	
+	//listener for the New Customer window's Add Customer button
 	private class addCusButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -685,15 +709,17 @@ public class Window extends JFrame {
 		}
 	}
 	
+	//listener for the New Customer window's Return to Checkout button
 	private class returnButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			buildCheckout();
 		}
 	}
 	
+	//method to retrieve the the ComboBoxes's selected Name's preferred customer array index, that was a mouth full
 	private int getSelectedCustomerIndex() {
 		String selection = (String) nameBox.getSelectedItem();
-		int tempInt = 0;
+		tempInt = 0;
 		for (int i = 0; i < pcArray.size(); i++) {
 			if (selection.equals(pcArray.get(i).getFName())) {
 				tempInt = i;
@@ -703,6 +729,7 @@ public class Window extends JFrame {
 		return tempInt;
 	}
 
+	//nested main method
 	public static void main(String[] args) {
 		new Window();
 	}
