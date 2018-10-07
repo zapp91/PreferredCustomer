@@ -38,7 +38,7 @@ public class Window extends JFrame {
 	JLabel amountDiscountedLabel;
 	JLabel pendingPaymentLabel;
 	
-	JLabel transactionAmountLabelError; 
+	JLabel transactionAmountLabelError;
 	JLabel transactionWindowError;
 	
 	JLabel firstNameLabel;
@@ -477,8 +477,21 @@ public class Window extends JFrame {
 			firstNameField.setText("");
 			lastNameField.setText("");
 			addressField.setText("");
-			phoneField.setText("");
+			cityField.setText("");      
+			stateField.setText("");   
+			zipField.setText("");       
+			phoneField.setText("");     
 			moneySpentField.setText("");
+			
+			firstNameLabelError.setText("");
+			lastNameLabelError.setText("");
+			addressLabelError.setText("");
+			cityLabelError.setText("");
+			stateLabelError.setText("");
+			zipLabelError.setText("");
+			phoneLabelError.setText("");
+			moneySpentLabelError.setText("");
+			addCustomerWindowError.setText("");
 		}
 	}
 	
@@ -530,7 +543,7 @@ public class Window extends JFrame {
 				
 				PCaddress = PCaddress.toLowerCase().trim();
 				strBuild = new StringBuilder(PCaddress);
-				if (PCaddress.matches("^[0-9]+[\\s][a-z]+$")) {
+				if (PCaddress.matches("^[0-9]+[\\sa-z]+$")) {
 					PCaddress = strBuild.toString();
 				}
 				else {
@@ -552,7 +565,21 @@ public class Window extends JFrame {
 				PCstate = PCstate.toUpperCase().trim();
 				strBuild = new StringBuilder(PCstate);
 				if (PCstate.matches("^[A-Z]{2}$")) {
-					PCstate = strBuild.toString();
+					boolean correctStateInput = false;
+					for (int i = 0; States.stateAbbreviations.length > i; i++) {
+						if (strBuild.toString().equals(States.stateAbbreviations[i])) {
+							correctStateInput = true;
+							i = States.stateAbbreviations.length;
+						}
+					}
+					
+					if(correctStateInput) {
+						PCstate = strBuild.toString();
+					}
+					else {
+						error = true;
+						stateLabelError.setText("*");
+					}
 				}
 				else {
 					error = true;
@@ -588,6 +615,7 @@ public class Window extends JFrame {
 				}
 				
 				if (error) {
+					addCustomerWindowError.setForeground(Color.RED);
 					addCustomerWindowError.setText("Input Error");
 				}
 				else {
@@ -604,7 +632,9 @@ public class Window extends JFrame {
 							Float.parseFloat(PCmoneySpent));
 					
 					pcArray.add(newPC);
-					//namesArray.add()
+					namesArray.add(newPC.getFName());
+					addCustomerWindowError.setForeground(new Color(0,153,0));
+					addCustomerWindowError.setText("Customer \"" + PCfName + "\" Saved!");
 				}
 			}
 			catch (Exception ex) {
