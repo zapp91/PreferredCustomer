@@ -1,14 +1,14 @@
 //Written By: Royce Duncan, 9/27/2018
 
-import javax.swing.*; 	//needed for Swing classes
-import java.awt.*;		//needed for FlowLayout class
-import java.awt.event.*;//needed for action listeners
-import java.util.ArrayList;
+import javax.swing.*; 		//needed for Swing classes
+import java.awt.*;			//needed for FlowLayout class
+import java.awt.event.*;	//needed for action listeners
+import java.util.ArrayList;	//needed for ArrayLists
 
 public class Window extends JFrame {
 	
+	//panels and panel set for Checkout & New Customer windows.
 	JPanel mainPanel;
-	
 	JPanel panel1;
 	JPanel panel2;
 	JPanel panel3;
@@ -22,15 +22,19 @@ public class Window extends JFrame {
 	JPanel panel11;
 	JPanel panel12;
 	
+	//buttons for Checkout window
 	JButton addNewCustomerButton;
 	JButton payButton;
 	
+	//buttons for New Customer window
 	JButton clearButton;
 	JButton addCusButton;
 	JButton returnButton;
 	
+	//ComboBox for Checkout window
 	JComboBox nameBox;
 	
+	//descriptive labels for Checkout window
 	JLabel customerLabel;		
 	JLabel currentSpentLabel;
 	JLabel currentDiscountLabel;
@@ -38,9 +42,11 @@ public class Window extends JFrame {
 	JLabel amountDiscountedLabel;
 	JLabel pendingPaymentLabel;
 	
+	//error labels for Checkout window
 	JLabel transactionAmountLabelError;
-	JLabel transactionWindowError;
+	JLabel checkoutWindowError;
 	
+	//descriptive labels for New Customer window
 	JLabel firstNameLabel;
 	JLabel lastNameLabel;
 	JLabel addressLabel;
@@ -51,6 +57,7 @@ public class Window extends JFrame {
 	JLabel moneySpentLabel; 
 	JLabel mailListLabel;
 	
+	//error labels for New Customer window
 	JLabel firstNameLabelError;  
 	JLabel lastNameLabelError;   
 	JLabel addressLabelError;
@@ -61,12 +68,14 @@ public class Window extends JFrame {
 	JLabel moneySpentLabelError;                     
 	JLabel addCustomerWindowError;
 	
+	//text fields for Checkout window
 	JTextField currentSpentField;
 	JTextField currentDiscountField;
 	JTextField transactionAmountField;
 	JTextField amountDiscountedField;
 	JTextField pendingPaymentField;
 	
+	//text fields for New Customer window
 	JTextField firstNameField;
 	JTextField lastNameField; 
 	JTextField addressField;
@@ -76,15 +85,19 @@ public class Window extends JFrame {
 	JTextField phoneField;
 	JTextField moneySpentField;
 	
+	//radio buttons and button group for Checkout window
 	ButtonGroup mailListRadioGroup;
 	JRadioButton radio1;
 	JRadioButton radio2;
 
+	//temporary integer for preferred customer array indexing
 	int tempInt;
 	
+	//floats for Checkout calculations
 	float calculatedAmountDiscounted;
 	float calculatedPendingPayment;
 	
+	//temporary strings for New Customer input validations
 	String PCfName;
 	String PClName;
 	String PCaddress;
@@ -94,59 +107,62 @@ public class Window extends JFrame {
 	String PCphone;
 	String PCmoneySpent;
 	
-	boolean error;
-	
+	//StringBuilder for New Customer input validations
 	StringBuilder strBuild;
 	
-	private final int WINDOW_WIDTH = 300;
-	private final int WINDOW_HEIGHT = 490;
-
+	//boolean for New Customer input validations
+	boolean error;
+	
+	//ArrayList for Preferred Customers
 	private ArrayList<PreferredCustomer> pcArray = new ArrayList<PreferredCustomer>();
+	
+	//ArrayList for Checkout windows's Customer ComboBox
 	private ArrayList<String> namesArray = new ArrayList<String>();
 	
 	public Window() {
 		
+		//initializes the PreferredCustomer array with PreferredCustomers
 		pcArray.add(new PreferredCustomer("Royce","Duncan","123 Roady rd","Panama City","FL",32405,8501234567L,1, true, 750.00f));
 		pcArray.add(new PreferredCustomer("Stevie","Nicks","456 Streety st","Panama City","FL",32405,8501234567L,2,false,1200.00f));
 		pcArray.add(new PreferredCustomer("Eric","Clapton","789 Circly cir","Panama City","FL",32405,8501234567L,3,false,2075.00f));
-		pcArray.add(new PreferredCustomer("Lindsey","Stirling","741 Highway hwy","Panama City","FL",32405,8501234567L,4,true,200.00f));
-		pcArray.add(new PreferredCustomer("John","Ray","456 Streety st","Panama City","FL",32405,8501234567L,5,false,1600.00f));
 		
+		//initializes the namesArray array with the first names of the PreferredCustomers
 		namesArray.add(pcArray.get(0).getFName());
 		namesArray.add(pcArray.get(1).getFName());
 		namesArray.add(pcArray.get(2).getFName());
-		namesArray.add(pcArray.get(3).getFName());
-		namesArray.add(pcArray.get(4).getFName());
 				
-		//set the title bar text
-		setTitle("Check Out");
+		//sets the title bar text for the JFrame
+		setTitle("Checkout");
 		
-		//set the size of the window
-		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		//sets the size of the JFrame window
+		setSize(300, 490);
 		
+		//optional method to lock JFrame window size
 		//setResizable(false);
 		
-		//specify an action for the close button
+		//specifies an action for the close button
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		//add a BorderLayout manager to the content pane
+		//adds a BorderLayout manager to the content pane
 		setLayout(new FlowLayout(FlowLayout.CENTER));
 		
+		//calls function to build the Checkout window
 		buildCheckout();
 		
-		//pack and display the window
-		//pack();
+		//display the window
 		setVisible(true);
 		
 	}
 	
+	
+	//This function builds the Checkout window
+	//called in the Window() method and the New Customer window's return button
 	private void buildCheckout() {
+		
+		//clears the New Customer JFrame components
 		getContentPane().removeAll();
 		
-		//create main panel
-		mainPanel = new JPanel();
-		
-		//create sub panels
+		//creates panel objects for Checkout window
 		panel1 = new JPanel();
 		panel2 = new JPanel();
 		panel3 = new JPanel();
@@ -160,15 +176,21 @@ public class Window extends JFrame {
 		panel11 = new JPanel();
 		panel12 = new JPanel();
 		
-		//buttons
+		//creates main panel object for Checkout window
+		mainPanel = new JPanel();
+		
+		//button to open New Customer window
 		addNewCustomerButton = new JButton("Add New Customer");
+		
+		//button to pay for presented transaction amount
 		payButton = new JButton("Pay");
 		
-		//create combo box
+		//combo box for Checkout window, attains value from namesArray, initialized to unselected, sets dimension manually
 		nameBox = new JComboBox(namesArray.toArray());
 		nameBox.setSelectedIndex(-1);
+		nameBox.setPreferredSize(new Dimension(115, 25));
 		
-		//create labels
+		//creates descriptive labels for Checkout window
 		customerLabel = 		new JLabel("Customer ");
 		currentSpentLabel = 	new JLabel("Current Spent ");
 		currentDiscountLabel = 	new JLabel("Current Discount ");
@@ -176,39 +198,38 @@ public class Window extends JFrame {
 		amountDiscountedLabel =	new JLabel("Discounted ");
 		pendingPaymentLabel = 	new JLabel("Pending Payment ");
 		
-		//error label set
+		//creates error labels for Checkout window
 		transactionAmountLabelError = 	new JLabel("");
-		transactionWindowError = 		new JLabel("");
-		transactionWindowError.setPreferredSize(new Dimension(180, 25));
+		checkoutWindowError = 		new JLabel("");
+		checkoutWindowError.setPreferredSize(new Dimension(180, 25));
 		
+		//sets color for error labels
 		transactionAmountLabelError.setForeground(Color.RED);
-		transactionWindowError.setForeground(Color.RED);
+		checkoutWindowError.setForeground(Color.RED);
 		
-		//create text fields
+		//creates text fields for Checkout window
 		currentSpentField = 	new JTextField(10);
 		currentDiscountField = 	new JTextField(10);
 		transactionAmountField =new JTextField(10);
 		amountDiscountedField =	new JTextField(10);
 		pendingPaymentField = 	new JTextField(10);
 		
-		//change component sizes
-		nameBox.setPreferredSize(new Dimension(115, 25));
-		
-		//change some text fields to uneditable
+		//changes specific text fields as unEditable
 		currentSpentField.setEditable(false);
 		currentDiscountField.setEditable(false);
 		amountDiscountedField.setEditable(false);
 		pendingPaymentField.setEditable(false);
 		
-		//listeners
+		//creates listeners for buttons, ComboBox, and text fields
 		addNewCustomerButton.addActionListener(new addNewCusButtonListener());
 		nameBox.addActionListener(new nameComboBoxListener());
 		transactionAmountField.addActionListener(new transactionAmountFieldListener());
 		payButton.addActionListener(new payButtonListener());
 		
-		//add main panel features
+		//adds Add New Customer button component to the top panel
 		panel1.add(addNewCustomerButton);
 		
+		//adds components to the main panel set
 		panel2.add(customerLabel);
 		panel2.add(nameBox);
 		
@@ -227,15 +248,13 @@ public class Window extends JFrame {
 		
 		panel7.add(pendingPaymentLabel);
 		panel7.add(pendingPaymentField);
-		panel8.add(transactionWindowError);
+		
+		panel8.add(checkoutWindowError);
 
+		//adds Pay button component to the bottom panel
 		panel9.add(payButton);
 		
-		mainPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		mainPanel.setPreferredSize(new Dimension(260, 250));
-		
-		add(panel1);
-		
+		//adds the main panel set to the main panel
 		mainPanel.add(panel2);
 		mainPanel.add(panel3);
 		mainPanel.add(panel4);
@@ -244,18 +263,28 @@ public class Window extends JFrame {
 		mainPanel.add(panel7);
 		mainPanel.add(panel8);
 		
+		//sets the main panel's flow characteristics
+		mainPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		mainPanel.setPreferredSize(new Dimension(260, 250));
+		
+		//adds the first panel directly to the top of the Checkout JFrame
+		add(panel1);
+		
+		//adds the main panel in the middle of the Checkout JFrame 
 		add(mainPanel);
+		
+		//adds the last panel directly to the bottom of the Checkout JFrame 
 		add(panel9);
 		
+		//redisplays the Checkout JFrame over the New Customer JFrame
 		revalidate();
 		repaint();
 	}
 	
 	private void buildAddCus() {
-		getContentPane().removeAll();
 		
-		//create main panel
-		mainPanel = new JPanel();
+		//clears the Checkout JFrame components
+		getContentPane().removeAll();
 		
 		//create sub panels
 		panel1 = new JPanel();
@@ -271,10 +300,13 @@ public class Window extends JFrame {
 		panel11 = new JPanel();
 		panel12 = new JPanel();
 		
+		//creates main panel object for Checkout window
+		mainPanel = new JPanel();
+		
 		//buttons
 		clearButton = new JButton("Clear");
 		addCusButton = new JButton("Add Customer");
-		returnButton = new JButton("Return to Check Out");
+		returnButton = new JButton("Return to Checkout");
 		
 		//radio buttons
 		radio1 = new JRadioButton("Yes", true);
@@ -417,7 +449,7 @@ public class Window extends JFrame {
 			amountDiscountedField.setText("");
 			pendingPaymentField.setText("");
 			transactionAmountLabelError.setText("");
-			transactionWindowError.setText("");
+			checkoutWindowError.setText("");
 			
 		}
 	}
@@ -426,7 +458,7 @@ public class Window extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				transactionAmountLabelError.setText("");
-				transactionWindowError.setText("");
+				checkoutWindowError.setText("");
 				
 				if (nameBox.getSelectedIndex() != -1) {
 					tempInt = getSelectedCustomerIndex();
@@ -436,12 +468,12 @@ public class Window extends JFrame {
 					pendingPaymentField.setText("$" + String.format("%.2f", calculatedPendingPayment));
 				}
 				else {
-					transactionWindowError.setText("No Customer Selected");
+					checkoutWindowError.setText("No Customer Selected");
 				}
 			}
 			catch (Exception ex) {
 				transactionAmountLabelError.setText("*");
-				transactionWindowError.setText("Improper Input");
+				checkoutWindowError.setText("Improper Input");
 			}
 		}
 	}
@@ -450,14 +482,14 @@ public class Window extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				transactionAmountLabelError.setText("");
-				transactionWindowError.setText("");
+				checkoutWindowError.setText("");
 				
 				if (nameBox.getSelectedIndex() == -1) {
-					transactionWindowError.setText("No Customer Selected");
+					checkoutWindowError.setText("No Customer Selected");
 				}
 				else if (pendingPaymentField.getText().length() == 0) {
 					transactionAmountLabelError.setText("*");
-					transactionWindowError.setText("Type amount and press Enter");
+					checkoutWindowError.setText("Type amount and press Enter");
 				}
 				else {
 					tempInt = getSelectedCustomerIndex();
@@ -467,7 +499,7 @@ public class Window extends JFrame {
 			}
 			catch (Exception ex) {
 				transactionAmountLabelError.setText("*");
-				transactionWindowError.setText("Invalid Input");
+				checkoutWindowError.setText("Invalid Input");
 			}
 		}
 	}
@@ -543,7 +575,7 @@ public class Window extends JFrame {
 				
 				PCaddress = PCaddress.toLowerCase().trim();
 				strBuild = new StringBuilder(PCaddress);
-				if (PCaddress.matches("^[0-9]+[\\sa-z]+$")) {
+				if (PCaddress.matches("^[0-9]+[\\s][\\sa-z]+$")) {
 					PCaddress = strBuild.toString();
 				}
 				else {
@@ -596,7 +628,16 @@ public class Window extends JFrame {
 					zipLabelError.setText("*");
 				}
 				
-				strBuild = new StringBuilder(PCphone.trim());
+				PCphone = PCphone.trim();
+				strBuild = new StringBuilder(PCphone);
+				for (int i = 0; strBuild.length() > i; i++) {
+					if (!Character.isDigit(strBuild.charAt(i))) {
+						strBuild.deleteCharAt(i);
+						i--;
+					}
+				}
+				
+				PCphone = strBuild.substring(0,strBuild.length());
 				if (PCphone.matches("^[0-9]{10}$")) {
 					PCphone = strBuild.toString();
 				}
@@ -605,7 +646,8 @@ public class Window extends JFrame {
 					phoneLabelError.setText("*");
 				}
 				
-				strBuild = new StringBuilder(PCmoneySpent.trim());
+				PCmoneySpent = PCmoneySpent.trim();
+				strBuild = new StringBuilder(PCmoneySpent);
 				if (PCmoneySpent.matches("^([0-9]*\\.[0-9]+|[0-9]+|[0-9]+\\.)$")) {
 					PCmoneySpent = strBuild.toString();
 				}
