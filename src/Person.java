@@ -58,21 +58,21 @@ public class Person {
 	/**
 	 * @return person's city 
 	 */
-	public String city() {
+	public String getCity() {
 		return city;
 	}//end city method
 
 	/**
 	 * @return person's state
 	 */
-	public String state() {
+	public String getState() {
 		return state;
 	}//end state method
 	
 	/**
 	 * @return person's zip
 	 */
-	public int zip() {
+	public int getZip() {
 		return zip;
 	}//end zip method
 	
