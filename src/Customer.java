@@ -57,5 +57,4 @@ public class Customer extends Person {
 	public void setMailList(boolean mailList) {
 		this.mailList = mailList;
 	}//end setMailList method
-	
-}
+}//end Customer class

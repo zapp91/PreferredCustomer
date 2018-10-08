@@ -7,7 +7,7 @@
 public class States {
 
 	//a static array of state abbreviations
-	static final String[] stateAbbreviations = {
+	static final String[] STATE_ABBREVIATIONS = {
     "AL",
     "AK",
     "AB",

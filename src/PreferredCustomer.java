@@ -36,7 +36,7 @@ public class PreferredCustomer extends Customer {
 	/**
 	 * @param amountSpent is the amount the customer has spent
 	 */
-	public void setAmountSpent(int amountSpent) {
+	public void setAmountSpent(float amountSpent) {
 		this.amountSpent = amountSpent;
 	}//end setAmountSpent method
 	
@@ -67,4 +67,4 @@ public class PreferredCustomer extends Customer {
 	public void addMoneySpent (float moneyPayed) {
 		amountSpent += moneyPayed;
 	}//end getAmountSpent method
-}
+}//end PreferredCustomer class

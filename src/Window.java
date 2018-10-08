@@ -628,10 +628,10 @@ public class Window extends JFrame {
 				strBuild = new StringBuilder(PCstate);     //creates a StringBuilder based on the state string 
 				if (PCstate.matches("^[A-Z]{2}$")) {       //if the state matches the regex then..             
 					correctStateInput = false;			//specific boolean to test for valid state input
-					for (int i = 0; States.stateAbbreviations.length > i; i++) {	//loops for each state abbreviation available
-						if (strBuild.toString().equals(States.stateAbbreviations[i])) {	//if the input string matches an abbreviation then..
+					for (int i = 0; States.STATE_ABBREVIATIONS.length > i; i++) {	//loops for each state abbreviation available
+						if (strBuild.toString().equals(States.STATE_ABBREVIATIONS[i])) {	//if the input string matches an abbreviation then..
 							correctStateInput = true;										//set the state boolean to true
-							i = States.stateAbbreviations.length;							//set the iterating variable to the last index
+							i = States.STATE_ABBREVIATIONS.length;							//set the iterating variable to the last index
 						} //end if
 					} //end for loop
 					
