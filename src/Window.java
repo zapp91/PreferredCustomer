@@ -107,6 +107,9 @@ public class Window extends JFrame {
 	String PCphone;
 	String PCmoneySpent;
 	
+	//boolean to test if PCstate input is a valid state
+	boolean correctStateInput;
+	
 	//StringBuilder for New Customer input validations
 	StringBuilder strBuild;
 	
@@ -624,7 +627,7 @@ public class Window extends JFrame {
 				PCstate = PCstate.toUpperCase().trim();    //trims and upper cases state                       
 				strBuild = new StringBuilder(PCstate);     //creates a StringBuilder based on the state string 
 				if (PCstate.matches("^[A-Z]{2}$")) {       //if the state matches the regex then..             
-					boolean correctStateInput = false;			//specific boolean to test for valid state input
+					correctStateInput = false;			//specific boolean to test for valid state input
 					for (int i = 0; States.stateAbbreviations.length > i; i++) {	//loops for each state abbreviation available
 						if (strBuild.toString().equals(States.stateAbbreviations[i])) {	//if the input string matches an abbreviation then..
 							correctStateInput = true;										//set the state boolean to true

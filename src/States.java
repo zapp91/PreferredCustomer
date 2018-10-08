@@ -1,6 +1,12 @@
+//Written By: Royce Duncan, 10/6/2018
 
+/**
+ * @author Royce
+ *	This class holds a static array of state abbreviations
+ */
 public class States {
 
+	//a static array of state abbreviations
 	static final String[] stateAbbreviations = {
     "AL",
     "AK",
@@ -70,4 +76,4 @@ public class States {
     "WY",
     "YT"};
 	
-}
+} //end State class
