@@ -8,113 +8,113 @@ import java.util.ArrayList;	//needed for ArrayLists
 public class Window extends JFrame {
 	
 	//panels for Checkout & New Customer windows.
-	JPanel mainPanel;
-	JPanel panel1;
-	JPanel panel2;
-	JPanel panel3;
-	JPanel panel4;
-	JPanel panel5;
-	JPanel panel6;
-	JPanel panel7;
-	JPanel panel8;
-	JPanel panel9;
-	JPanel panel10;
-	JPanel panel11;
-	JPanel panel12;
+	private JPanel mainPanel;
+	private JPanel panel1;
+	private JPanel panel2;
+	private JPanel panel3;
+	private JPanel panel4;
+	private JPanel panel5;
+	private JPanel panel6;
+	private JPanel panel7;
+	private JPanel panel8;
+	private JPanel panel9;
+	private JPanel panel10;
+	private JPanel panel11;
+	private JPanel panel12;
 	
 	//buttons for Checkout window
-	JButton addNewCustomerButton;
-	JButton payButton;
+	private JButton addNewCustomerButton;
+	private JButton payButton;
 	
 	//buttons for New Customer window
-	JButton clearButton;
-	JButton addCusButton;
-	JButton returnButton;
+	private JButton clearButton;
+	private JButton addCusButton;
+	private JButton returnButton;
 	
 	//ComboBox for Checkout window
-	JComboBox nameBox;
+	private JComboBox nameBox;
 	
 	//descriptive labels for Checkout window
-	JLabel customerLabel;		
-	JLabel currentSpentLabel;
-	JLabel currentDiscountLabel;
-	JLabel transactionAmountLabel;
-	JLabel amountDiscountedLabel;
-	JLabel pendingPaymentLabel;
+	private JLabel customerLabel;		
+	private JLabel currentSpentLabel;
+	private JLabel currentDiscountLabel;
+	private JLabel transactionAmountLabel;
+	private JLabel amountDiscountedLabel;
+	private JLabel pendingPaymentLabel;
 	
 	//error labels for Checkout window
-	JLabel transactionAmountLabelError;
-	JLabel checkoutWindowError;
+	private JLabel transactionAmountLabelError;
+	private JLabel checkoutWindowError;
 	
 	//descriptive labels for New Customer window
-	JLabel firstNameLabel;
-	JLabel lastNameLabel;
-	JLabel addressLabel;
-	JLabel cityLabel;
-	JLabel stateLabel;
-	JLabel zipLabel; 
-	JLabel phoneLabel;
-	JLabel moneySpentLabel; 
-	JLabel mailListLabel;
+	private JLabel firstNameLabel;
+	private JLabel lastNameLabel;
+	private JLabel addressLabel;
+	private JLabel cityLabel;
+	private JLabel stateLabel;
+	private JLabel zipLabel; 
+	private JLabel phoneLabel;
+	private JLabel moneySpentLabel; 
+	private JLabel mailListLabel;
 	
 	//error labels for New Customer window
-	JLabel firstNameLabelError;  
-	JLabel lastNameLabelError;   
-	JLabel addressLabelError;
-	JLabel cityLabelError;	     
-	JLabel stateLabelError;      
-	JLabel zipLabelError;        
-	JLabel phoneLabelError;      
-	JLabel moneySpentLabelError;                     
-	JLabel addCustomerWindowError;
+	private JLabel firstNameLabelError;  
+	private JLabel lastNameLabelError;   
+	private JLabel addressLabelError;
+	private JLabel cityLabelError;	     
+	private JLabel stateLabelError;      
+	private JLabel zipLabelError;        
+	private JLabel phoneLabelError;      
+	private JLabel moneySpentLabelError;                     
+	private JLabel addCustomerWindowError;
 	
 	//text fields for Checkout window
-	JTextField currentSpentField;
-	JTextField currentDiscountField;
-	JTextField transactionAmountField;
-	JTextField amountDiscountedField;
-	JTextField pendingPaymentField;
+	private JTextField currentSpentField;
+	private JTextField currentDiscountField;
+	private JTextField transactionAmountField;
+	private JTextField amountDiscountedField;
+	private JTextField pendingPaymentField;
 	
 	//text fields for New Customer window
-	JTextField firstNameField;
-	JTextField lastNameField; 
-	JTextField addressField;
-	JTextField cityField;	
-	JTextField stateField;
-	JTextField zipField;
-	JTextField phoneField;
-	JTextField moneySpentField;
+	private JTextField firstNameField;
+	private JTextField lastNameField; 
+	private JTextField addressField;
+	private JTextField cityField;	
+	private JTextField stateField;
+	private JTextField zipField;
+	private JTextField phoneField;
+	private JTextField moneySpentField;
 	
 	//radio buttons and button group for Checkout window
-	ButtonGroup mailListRadioGroup;
-	JRadioButton radio1;
-	JRadioButton radio2;
+	private ButtonGroup mailListRadioGroup;
+	private JRadioButton radio1;
+	private JRadioButton radio2;
 
 	//temporary integer for preferred customer array indexing
-	int tempInt;
+	private int tempInt;
 	
 	//floats for Checkout calculations
-	float calculatedAmountDiscounted;
-	float calculatedPendingPayment;
+	private float calculatedAmountDiscounted;
+	private float calculatedPendingPayment;
 	
 	//temporary strings for New Customer input validations
-	String PCfName;
-	String PClName;
-	String PCaddress;
-	String PCcity;
-	String PCstate;
-	String PCzip;
-	String PCphone;
-	String PCmoneySpent;
+	private String PCfName;
+	private String PClName;
+	private String PCaddress;
+	private String PCcity;
+	private String PCstate;
+	private String PCzip;
+	private String PCphone;
+	private String PCmoneySpent;
 	
 	//boolean to test if PCstate input is a valid state
-	boolean correctStateInput;
+	private boolean correctStateInput;
 	
 	//StringBuilder for New Customer input validations
-	StringBuilder strBuild;
+	private StringBuilder strBuild;
 	
 	//boolean for New Customer input validations
-	boolean error;
+	private boolean error;
 	
 	//ArrayList for Preferred Customers
 	private ArrayList<PreferredCustomer> pcArray = new ArrayList<PreferredCustomer>();
